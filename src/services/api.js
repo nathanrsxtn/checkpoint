@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const api = axios.create({ baseURL: "/api" });
+const api = axios.create({ baseURL: "http://localhost:3000/api" });
 
 export async function getPosts() {
   try {
@@ -24,7 +24,7 @@ export async function getPost(id) {
 
 export async function getProfile(id) {
   try {
-    const response = await api.get(`/profiles/${id}`);
+    const response = await api.get(`/users/${id}`);
     return response.data;
   } catch (error) {
     console.error("Get profile error:", error);
