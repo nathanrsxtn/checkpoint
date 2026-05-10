@@ -25,6 +25,15 @@ export const users = [
     followers: 4567,
     following: 41,
   },
+
+  {
+    id: 4,
+    name: "Susie",
+    username: "@Gamer",
+    postCount: 1,
+    followers: 82,
+    following: 0,
+  },
 ];
 
 export const posts = [
@@ -37,6 +46,19 @@ export const posts = [
     likes: 157,
     commentCount: 22,
     shareCount: 34,
+    comments: [
+      {
+        id: 1,
+        userId: 2,
+        textContent: "Wow this is amazing",
+        likes: 9
+      }, {
+        id: 2,
+        userId: 3,
+        textContent: "I hate this",
+        likes: 0
+      }
+    ]
   },
 
   {
@@ -48,6 +70,14 @@ export const posts = [
     likes: 27,
     commentCount: 6,
     shareCount: 21,
+    comments: [
+      {
+        id: 1,
+        userId: 4,
+        textContent: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur",
+        likes: 202
+      }
+    ]
   },
 
   {
@@ -59,6 +89,14 @@ export const posts = [
     likes: 47,
     commentCount: 61,
     shareCount: 54,
+    comments: [
+      {
+        id: 1,
+        userId: 1,
+        textContent: "Lorem ipsum",
+        likes: 21
+      }
+    ]
   },
 
   {
@@ -70,5 +108,28 @@ export const posts = [
     likes: 1002,
     commentCount: 123,
     shareCount: 200,
+        comments: [
+      {
+        id: 1,
+        userId: 1,
+        textContent: "First",
+        likes: 9
+      }, {
+        id: 2,
+        userId: 2,
+        textContent: "Second",
+        likes: 0
+      }, {
+        id: 3,
+        userId: 4,
+        textContent: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation",
+        likes: 0
+      }, {
+        id: 4,
+        userId: 4,
+        textContent: "Wow",
+        likes: 0
+      }
+    ]
   },
 ];
