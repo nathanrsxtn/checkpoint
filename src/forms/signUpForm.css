@@ -1,38 +1,51 @@
-.Form {
-  max-width: 360px;
-  margin: 4rem auto;
+body{
+  background-color: #727272;
+}
+
+.container{
+  display: flex;
+  height: 100vh;
+}
+
+.container .Form {
+  width: 50%;
+  height: 100vh;
   padding: 2rem;
-  background: #fff;
+  background: #2D2D2B;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   font-family: 'Work Sans', sans-serif;
 }
 
-.Form h2 {
+.container .Form h2 {
   text-align: center;
   margin-bottom: 1.5rem;
-  color: #1e2126;
+  color: #FFFFFF;
 }
 
-.Form input {
+.container .Form input {
   width: 100%;
   padding: 0.6rem;
   margin-bottom: 1rem;
-  border: 1px solid #ccc;
+  border: 1px solid #727272;
   border-radius: 4px;
   font: inherit;
   box-sizing: border-box;
 }
 
-.Form input:focus {
-  outline: none;
-  border-color: #cca353;
+.container .Form input::placeholder {
+  color: #727272;
 }
 
-.Form button {
+.container .Form input:focus {
+  outline: none;
+  border-color: #874BFF;
+}
+
+.container .Form button {
   width: 100%;
   padding: 0.7rem;
-  background: #cca353;
+  background: #874BFF;
   color: #fff;
   border: 0;
   border-radius: 4px;
@@ -42,22 +55,23 @@
   transition: background-color 0.25s;
 }
 
-.Form button:hover {
-  background: #a7874b;
+.container .Form button:hover {
+  background: #FFFFFF;
+  color: #874BFF;
 }
 
-.Form-link {
+.container .Form-link {
   text-align: center;
   margin-top: 1rem;
-  color: #555;
+  color: #FFFFFF;;
 }
 
-.Form-link a {
-  color: #cca353;
+.container .Form-link a {
+  color: #874BFF;
   text-decoration: none;
   font-weight: 600;
 }
 
-.Form-link a:hover {
+.container .Form-link a:hover {
   text-decoration: underline;
 }

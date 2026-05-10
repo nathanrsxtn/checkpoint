@@ -11,6 +11,8 @@ import LoginForm from "@/forms/LoginForm.jsx";
 import SignupForm from "@/forms/SignupForm.jsx";
 import { homeLoader, postLoader, profileLoader } from "@/services/loaders.js";
 
+import "./App.css"; 
+
 function Layout() {
   const navigation = useNavigation();
   const loading = navigation.state === "loading";

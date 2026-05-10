@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import "./Forms.css";
+import "./signUpForm.css";
 
 // Assignment 5 â€” Signup route.
 // This form practices multiple controlled inputs and validation.
@@ -49,46 +49,48 @@ function SignupForm() {
   };
 
   return (
-    <form className="Form" onSubmit={handleSubmit}>
-      <h2>Sign up</h2>
+      <div class="container">
+        <form className="Form" onSubmit={handleSubmit}>
+          <h2>Sign up</h2>
 
-      <input
-        placeholder="Name"
-        value={name}
-        // TODO: Make this a controlled input for the name field.
-        onChange={(event) => setName(event.target.value)}
-      />
+          <input
+            placeholder="Name"
+            value={name}
+            // TODO: Make this a controlled input for the name field.
+            onChange={(event) => setName(event.target.value)}
+          />
 
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        // TODO: Store the typed email in state.
-        onChange={(event) => setEmail(event.target.value)}
-      />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            // TODO: Store the typed email in state.
+            onChange={(event) => setEmail(event.target.value)}
+          />
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        // TODO: Update password state as the user types.
-        onChange={(event) => setPassword(event.target.value)}
-      />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            // TODO: Update password state as the user types.
+            onChange={(event) => setPassword(event.target.value)}
+          />
 
-      <input
-        type="password"
-        placeholder="Confirm password"
-        value={confirm}
-        // TODO: Track the confirm password value separately from password.
-        onChange={(event) => setConfirm(event.target.value)}
-      />
+          <input
+            type="password"
+            placeholder="Confirm password"
+            value={confirm}
+            // TODO: Track the confirm password value separately from password.
+            onChange={(event) => setConfirm(event.target.value)}
+          />
 
-      <button type="submit">Sign up</button>
+          <button type="submit">Sign up</button>
 
-      <p className="Form-link">
-        Already a member? <Link to="/login">Log in</Link>
-      </p>
-    </form>
+          <p className="Form-link">
+            Already a member? <Link to="/login">Log in</Link>
+          </p>
+        </form>
+      </div>
   );
 }
 

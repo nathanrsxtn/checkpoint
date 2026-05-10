@@ -1,15 +1,14 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import "./Forms.css";
+import loginSplash from "@/images/loginSplash.png";
+import "./loginForm.css";
 
 // Assignment 5 â€” Login route.
 // This form does not authenticate with a backend yet.
 // A valid submission shows a toast message and returns the user to the home page.
 function LoginForm() {
-  // TODO: Create state to store the user's email.
-  // Start the email value as an empty string.
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
 
   // TODO: Create state to store the user's password.
   // Start the password value as an empty string.
@@ -20,8 +19,8 @@ function LoginForm() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (!email.includes("@")) {
-      toast.error("Please enter a valid email.");
+    if (!username.includes("@")) {
+      toast.error("Please enter a valid username.");
       return;
     }
 
@@ -30,38 +29,40 @@ function LoginForm() {
       return;
     }
 
-    toast.success(`Welcome back, ${email}!`);
+    toast.success(`Welcome back, ${username}!`);
     navigate("/");
   };
 
   return (
-    <form className="Form" onSubmit={handleSubmit}>
-      <h2>Log in</h2>
+      <div class="container">
+        <img src={loginSplash} alt="loginSplash" className="loginSplash"></img> 
+        
+        <form className="Form" onSubmit={handleSubmit}>
+          <h2>Sign in to Checkpoint</h2>
 
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        // TODO: Connect this input to the email state.
-        // When the user types, save event.target.value into email.
-        onChange={(event) => setEmail(event.target.value)}
-      />
+          <input
+            type="username"
+            placeholder="Username"
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+          />
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        // TODO: Connect this input to the password state.
-        // Each keystroke should update the password value.
-        onChange={(event) => setPassword(event.target.value)}
-      />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            // TODO: Connect this input to the password state.
+            // Each keystroke should update the password value.
+            onChange={(event) => setPassword(event.target.value)}
+          />
 
-      <button type="submit">Log in</button>
+          <button type="submit">Log in</button>
 
-      <p className="Form-link">
-        No account? <Link to="/signup">Sign up</Link>
-      </p>
-    </form>
+          <p className="Form-link">
+            No account? <Link to="/signup">Sign up</Link>
+          </p>
+        </form>
+      </div>
   );
 }
 
