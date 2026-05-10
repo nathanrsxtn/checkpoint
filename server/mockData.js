@@ -56,7 +56,7 @@ export const posts = [
         id: 2,
         userId: 3,
         textContent: "I hate this",
-        likes: 0
+        likes: 0,
       }
     ]
   },
@@ -75,7 +75,7 @@ export const posts = [
         id: 1,
         userId: 4,
         textContent: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur",
-        likes: 202
+        likes: 202,
       }
     ]
   },
@@ -94,7 +94,7 @@ export const posts = [
         id: 1,
         userId: 1,
         textContent: "Lorem ipsum",
-        likes: 21
+        likes: 21,
       }
     ]
   },
@@ -113,23 +113,67 @@ export const posts = [
         id: 1,
         userId: 1,
         textContent: "First",
-        likes: 9
+        likes: 9,
       }, {
         id: 2,
         userId: 2,
         textContent: "Second",
-        likes: 0
+        likes: 0,
       }, {
         id: 3,
         userId: 4,
         textContent: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation",
-        likes: 0
+        likes: 0,
       }, {
         id: 4,
         userId: 4,
         textContent: "Wow",
-        likes: 0
+        likes: 0,
       }
     ]
   },
 ];
+
+export const message = [
+  {
+    messageNum: 1,
+    Sender: "@albert",
+    Recipient: "@SallyWag",
+    Message: "We hopping on tonight?",
+  },
+
+  {
+    messageNum: 2,
+    Sender: "@SallyWag",
+    Recipient: "@albert",
+    Message: "Yeah lets run it",
+  },
+
+  {
+    messageNum: 3,
+    Sender: "@albert",
+    Recipient: "@SallyWag",
+    Message: "Ok ill be online in 10 minutes",
+  },
+
+  {
+    messageNum: 1,
+    Sender: "@Joe12",
+    Recipient: "@Gamer",
+    Message: "Your recent post was crazy",
+  },
+
+  {
+    messageNum: 2,
+    Sender: "@Gamer",
+    Recipient: "@Joe12",
+    Message: "Thanks Joe!",
+  },
+
+  {
+    messageNum: 1,
+    Sender: "@Gamer",
+    Recipient: "@SallyWag",
+    Message: "Yo",
+  },
+]
