@@ -7,6 +7,8 @@ import { PostError } from "@/pages/PostError.jsx";
 import { PostPage } from "@/pages/PostPage.jsx";
 import { ProfileError } from "@/pages/ProfileError.jsx";
 import { ProfilePage } from "@/pages/ProfilePage.jsx";
+import LoginForm from "@/forms/LoginForm.jsx";
+import SignupForm from "@/forms/SignupForm.jsx";
 import { homeLoader, postLoader, profileLoader } from "@/services/loaders.js";
 
 function Layout() {
@@ -48,6 +50,15 @@ const router = createBrowserRouter([
         element: <ProfilePage />,
         errorElement: <ProfileError />,
         loader: profileLoader,
+      },
+      { 
+        path: "login", 
+        element: <LoginForm /> 
+      },
+      { path: 
+        "signup", 
+        element: 
+        <SignupForm /> 
       },
     ],
   },
