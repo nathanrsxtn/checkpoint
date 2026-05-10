@@ -7,10 +7,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Social media API running");
-});
-
 app.get("/api/users", (req, res) => {
   res.json(users);
 });
@@ -48,6 +44,4 @@ app.get("/api/users/:id/posts", (req, res) => {
   res.json(userPosts);
 });
 
-app.listen(3000, () => {
-  console.log("Listening on http://localhost:3000");
-});
+export default app;

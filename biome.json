@@ -7,7 +7,6 @@
   "linter": {
     "rules": {
       "style": {
-        "noDefaultExport": "on",
         "noRestrictedGlobals": "error",
         "useComponentExportOnlyModules": "error"
       },
@@ -34,6 +33,7 @@
       "linter": {
         "rules": {
           "style": {
+            "noDefaultExport": "on",
             "noRestrictedImports": {
               "level": "error",
               "options": {
