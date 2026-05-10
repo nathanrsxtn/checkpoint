@@ -1,33 +1,35 @@
 import axios from "axios";
 
-const api = axios.create({ baseURL: "http://localhost:3000/api" });
+const api = axios.create({ baseURL: "/api" });
 
-export async function getPosts() {
+function handleError(error) {
+  console.error(error);
+  throw error.response?.data?.error || error.message || "Unexpected error";
+}
+
+export async function getPosts(signal) {
   try {
-    const response = await api.get("/posts");
+    const response = await api.get("/posts", { signal });
     return response.data;
   } catch (error) {
-    console.error("Get posts error:", error);
-    return [];
+    handleError(error);
   }
 }
 
-export async function getPost(id) {
+export async function getPost(id, signal) {
   try {
-    const response = await api.get(`/posts/${id}`);
+    const response = await api.get(`/posts/${id}`, { signal });
     return response.data;
   } catch (error) {
-    console.error("Get post error:", error);
-    return null;
+    handleError(error);
   }
 }
 
-export async function getProfile(id) {
+export async function getProfile(id, signal) {
   try {
-    const response = await api.get(`/users/${id}`);
+    const response = await api.get(`/users/${id}`, { signal });
     return response.data;
   } catch (error) {
-    console.error("Get profile error:", error);
-    return null;
+    handleError(error);
   }
 }

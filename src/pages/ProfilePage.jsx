@@ -2,7 +2,7 @@ import { useLoaderData, useParams } from "react-router";
 
 export function ProfilePage() {
   const { id } = useParams();
-  const profile = useLoaderData()
+  const profile = useLoaderData();
 
   return (
     <>

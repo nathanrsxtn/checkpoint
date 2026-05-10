@@ -8,11 +8,7 @@ export function ProfileError() {
     <>
       <h1>Error Profile View Page</h1>
       <p>Profile ID {id}</p>
-      {error.status === 404 ? (
-        <p>Profile not found</p>
-      ) : (
-        <p>Something went wrong</p>
-      )}
+      <p>{error}</p>
     </>
   );
 }

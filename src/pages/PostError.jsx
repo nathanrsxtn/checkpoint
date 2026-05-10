@@ -8,11 +8,7 @@ export function PostError() {
     <>
       <h1>Error Post View Page</h1>
       <p>Post ID {id}</p>
-      {error.status === 404 ? (
-        <p>Post not found</p>
-      ) : (
-        <p>Something went wrong</p>
-      )}
+      <p>{error}</p>
     </>
   );
 }

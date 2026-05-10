@@ -1,6 +1,6 @@
-import express from "express";
 import cors from "cors";
-import { users, posts } from "./mockData.js";
+import express from "express";
+import { posts, users } from "./mockData.js";
 
 const app = express();
 

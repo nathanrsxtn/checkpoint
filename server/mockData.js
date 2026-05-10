@@ -8,22 +8,22 @@ export const users = [
     following: 72,
   },
 
-    {
-      id: 2,
-      name: "Joe",
-      username: "@Joe12",
-      postCount: 2,
-      followers: 21,
-      following: 102,
+  {
+    id: 2,
+    name: "Joe",
+    username: "@Joe12",
+    postCount: 2,
+    followers: 21,
+    following: 102,
   },
 
-    {
-      id: 3,
-      name: "Sally",
-      username: "@SallyWag",
-      postCount: 3,
-      followers: 4567,
-      following: 41,
+  {
+    id: 3,
+    name: "Sally",
+    username: "@SallyWag",
+    postCount: 3,
+    followers: 4567,
+    following: 41,
   },
 ];
 
@@ -39,7 +39,7 @@ export const posts = [
     shareCount: 34,
   },
 
-    {
+  {
     id: 2,
     userId: 1,
     game: "Clash of Clans",

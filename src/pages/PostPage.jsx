@@ -3,7 +3,7 @@ import { Post } from "@/components/Post.jsx";
 
 export function PostPage() {
   const { id } = useParams();
-  const post  = useLoaderData();
+  const post = useLoaderData();
 
   return (
     <>
