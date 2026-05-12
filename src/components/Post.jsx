@@ -1,4 +1,4 @@
-export function Post({ game, content, tag, likes, commentCount, shareCount }) {
+export function Post({ game, content, tag, likes, commentCount, shareCount, image }) {
   return (
     <>
       <h2>{game}</h2>
@@ -7,6 +7,7 @@ export function Post({ game, content, tag, likes, commentCount, shareCount }) {
       <p>Likes: {likes}</p>
       <p>Comments: {commentCount}</p>
       <p>Shares: {shareCount}</p>
+      <img src={image} alt={game} width="300" />
     </>
   );
 }

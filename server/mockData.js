@@ -46,6 +46,7 @@ export const posts = [
     likes: 157,
     commentCount: 22,
     shareCount: 34,
+    image: "/src/images/MinecraftGameplay.png",
     comments: [
       {
         id: 1,
@@ -70,6 +71,7 @@ export const posts = [
     likes: 27,
     commentCount: 6,
     shareCount: 21,
+    image: "/src/images/ClashOfClansGameplay.png",
     comments: [
       {
         id: 1,
@@ -89,6 +91,7 @@ export const posts = [
     likes: 47,
     commentCount: 61,
     shareCount: 54,
+    image: "/src/images/CODGameplay.png",
     comments: [
       {
         id: 1,
@@ -108,7 +111,8 @@ export const posts = [
     likes: 1002,
     commentCount: 123,
     shareCount: 200,
-        comments: [
+    image: "/src/images/fortnite.png",
+    comments: [
       {
         id: 1,
         userId: 1,
