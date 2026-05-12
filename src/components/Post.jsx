@@ -1,6 +1,7 @@
 export function Post({ game, content, tag, likes, commentCount, shareCount, image }) {
   return (
     <>
+      <hr />
       <h2>{game}</h2>
       <p>Content: {content}</p>
       <p>Tag: {tag}</p>
