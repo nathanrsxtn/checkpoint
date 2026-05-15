@@ -1,4 +1,4 @@
-export function Post({ game, content, tag, likes, commentCount, shareCount, image }) {
+export function Post({ name, username, game, content, tag, likes, commentCount, shareCount, image }) {
   return (
     <>
     {/* Main card wrapper is post-card */}
@@ -8,8 +8,8 @@ export function Post({ game, content, tag, likes, commentCount, shareCount, imag
       {/* Includes main post content */}
       <div className="post-main">
         <div className="post-header">
-          <span>PERSON NAME</span>
-          <span>@USERNAME</span>
+          <span>{name}</span>
+          <span>{username}</span>
         </div>
 
         <p className="post-text">
@@ -19,6 +19,8 @@ export function Post({ game, content, tag, likes, commentCount, shareCount, imag
         <p className="post-tag">{tag}</p>
 
         {image && <img className="post-image" src={image} alt={game} />}
+
+        
 
         <div className="post-actions">
           <span>❤️ {likes}</span>

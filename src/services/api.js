@@ -7,6 +7,7 @@ function handleError(error) {
   throw error.response?.data?.error || error.message || "Unexpected error";
 }
 
+// get all posts
 export async function getPosts(signal) {
   try {
     const response = await api.get("/posts", { signal });
@@ -16,6 +17,7 @@ export async function getPosts(signal) {
   }
 }
 
+// get specific post
 export async function getPost(id, signal) {
   try {
     const response = await api.get(`/posts/${id}`, { signal });
@@ -25,6 +27,7 @@ export async function getPost(id, signal) {
   }
 }
 
+// get single specific profile based on id
 export async function getProfile(id, signal) {
   try {
     const response = await api.get(`/users/${id}`, { signal });
@@ -34,11 +37,10 @@ export async function getProfile(id, signal) {
   }
 }
 
-export async function getMessages(signal) {
+// get all messages
+export async function getMessages() {
   try {
-    const response = await api.get("/messages", {
-      signal,
-    });
+    const response = await api.get("/messages");
     return response.data;
   } catch (error) {
     console.error("Get messages error:", error);

@@ -40,6 +40,8 @@ export const posts = [
   {
     id: 1,
     userId: 1,
+    name: "Albert",
+    username: "@albert",
     game: "Minecraft",
     content: "#Speedrun",
     tag: "#Nostalgia",
@@ -64,7 +66,9 @@ export const posts = [
 
   {
     id: 2,
-    userId: 1,
+    userId: 2,
+    name: "Joe",
+    username: "@Joe12",
     game: "Clash of Clans",
     content: "#Gameplay",
     tag: "#Funny",
@@ -84,7 +88,9 @@ export const posts = [
 
   {
     id: 3,
-    userId: 2,
+    userId: 3,
+    name: "Sally",
+    username: "@SallyWag",
     game: "Call of Duty",
     content: "#Gameplay",
     tag: "#Commentary",
@@ -104,7 +110,9 @@ export const posts = [
 
   {
     id: 4,
-    userId: 3,
+    userId: 4,
+    name: "Susie",
+    username: "@Gamer",
     game: "Fortnite",
     content: "#Trolling",
     tag: "#Funny",

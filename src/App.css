@@ -92,7 +92,7 @@
 .post-header {
   background-color: #aaa99f;
   color: #e63b2e;
-  font-size: 12px;
+  font-size: 17px;
   font-weight: bold;
   display: flex;
   justify-content: space-around;
@@ -107,7 +107,7 @@
 
 .post-image {
   display: block;
-  width: 320px;
+  width: 500px;
   margin: 12px auto;
 }
 
