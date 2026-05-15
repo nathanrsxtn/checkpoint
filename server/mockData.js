@@ -138,7 +138,7 @@ export const posts = [
   },
 ];
 
-export const message = [
+export const messages = [
   {
     messageNum: 1,
     Sender: "@albert",

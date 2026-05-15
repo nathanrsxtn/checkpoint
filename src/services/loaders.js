@@ -1,4 +1,4 @@
-import { getPost, getPosts, getProfile } from "@/services/api.js";
+import { getPost, getPosts, getProfile, getMessages } from "@/services/api.js";
 
 export async function homeLoader({ request }) {
   const posts = await getPosts(request.signal);
@@ -17,4 +17,9 @@ export async function profileLoader({ params, request }) {
   if (!id) throw new Response("Not Found", { status: 404 });
   const profile = await getProfile(id, request.signal);
   return profile;
+}
+
+export async function messagesLoader({ request }) {
+  const messages = await getMessages(request.signal);
+  return { messages };
 }

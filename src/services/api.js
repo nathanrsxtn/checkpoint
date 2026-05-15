@@ -33,3 +33,15 @@ export async function getProfile(id, signal) {
     handleError(error);
   }
 }
+
+export async function getMessages(signal) {
+  try {
+    const response = await api.get("/messages", {
+      signal,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Get messages error:", error);
+    return [];
+  }
+}

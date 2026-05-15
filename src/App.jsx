@@ -9,7 +9,8 @@ import { ProfileError } from "@/pages/ProfileError.jsx";
 import { ProfilePage } from "@/pages/ProfilePage.jsx";
 import LoginForm from "@/forms/LoginForm.jsx";
 import SignupForm from "@/forms/SignupForm.jsx";
-import { homeLoader, postLoader, profileLoader } from "@/services/loaders.js";
+import { homeLoader, postLoader, profileLoader, messagesLoader } from "@/services/loaders.js";
+import { MessagesPage } from "@/pages/MessagesPage.jsx";
 
 import "./App.css"; 
 
@@ -43,6 +44,11 @@ const router = createBrowserRouter([
         element: <HomePage />,
         errorElement: <HomeError />,
         loader: homeLoader,
+      },
+      {
+        path: "messages",
+        element: <MessagesPage />,
+        loader: messagesLoader,
       },
       {
         path: "post/:id",

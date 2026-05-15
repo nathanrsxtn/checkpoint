@@ -1,6 +1,6 @@
 import cors from "cors";
 import express from "express";
-import { posts, users } from "./mockData.js";
+import { posts, users, messages } from "./mockData.js";
 
 const app = express();
 
@@ -42,6 +42,10 @@ app.get("/api/users/:id/posts", (req, res) => {
   const userPosts = posts.filter((p) => p.userId === userId);
 
   res.json(userPosts);
+});
+
+app.get("/api/messages", (req, res) => {
+  res.json(messages);
 });
 
 export default app;
