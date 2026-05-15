@@ -162,7 +162,7 @@ export const message = [
 
   {
     messageNum: 1,
-    Sender: "@Joe12",
+    Sender: "@albert",
     Recipient: "@Gamer",
     Message: "Your recent post was crazy",
   },
@@ -170,14 +170,14 @@ export const message = [
   {
     messageNum: 2,
     Sender: "@Gamer",
-    Recipient: "@Joe12",
+    Recipient: "@albert",
     Message: "Thanks Joe!",
   },
 
   {
     messageNum: 1,
-    Sender: "@Gamer",
-    Recipient: "@SallyWag",
+    Sender: "@Joe12",
+    Recipient: "@albert",
     Message: "Yo",
   },
 ]
