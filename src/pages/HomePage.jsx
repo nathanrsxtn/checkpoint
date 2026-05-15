@@ -6,12 +6,12 @@ export function HomePage() {
 
   return (
     <>
-      <h1>HomePage</h1>
-      <div>
-        {posts.map((post) => (
-          <Post key={post.id} {...post} />
-        ))}
-      </div>
+      <h1>Home View Page</h1>
+        <div className="posts-container">
+          {posts.map((post) => (
+            <Post key={post.id} {...post} />
+          ))}
+        </div>
     </>
   );
 }

@@ -1,4 +1,23 @@
+import { useState } from "react";
+
 export function Post({ name, username, game, content, tag, likes, commentCount, shareCount, image }) {
+  const [likeState, setLikeState] = useState(likes);
+  const [commentState, setCommentState] = useState(commentCount);
+  const [shareState, setShareState] = useState(shareCount);
+  const [liked, setLiked] = useState(false);
+
+  const handleLike = () => {
+    if (!liked) {
+      // like post
+      setLikeState((prev) => prev + 1);
+      setLiked(true);
+    } else {
+      // undo like on post
+      setLikeState((prev) => prev - 1);
+      setLiked(false);
+    }
+  }
+
   return (
     <>
     {/* Main card wrapper is post-card */}
@@ -23,9 +42,9 @@ export function Post({ name, username, game, content, tag, likes, commentCount, 
         
 
         <div className="post-actions">
-          <span>❤️ {likes}</span>
-          <span>💬 {commentCount}</span>
-          <span>📩 {shareCount}</span>
+          <button onClick={handleLike}>❤️ {likeState}</button>
+          <button>💬 {commentCount}</button>
+          <button>📩 {shareCount}</button>
         </div>
       </div>
     </article>
