@@ -17,11 +17,14 @@ function Layout() {
   const navigation = useNavigation();
   const loading = navigation.state === "loading";
   return (
-    <>
+    <div className="app-layout">
       <Navigation />
-      {loading && <div>Loading...</div>}
-      <Outlet />
-    </>
+
+      <main className="main-content">
+        {loading && <div>Loading...</div>}
+        <Outlet />
+      </main>
+    </div>
   );
 }
 

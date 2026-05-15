@@ -1,0 +1,44 @@
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #001012;
+  color: white;
+}
+
+.sidebar {
+  width: 240px;
+  background-color: #2b2b28;
+  border-right: 3px solid #d9d9d9;
+  display: flex;
+  flex-direction: column;
+  padding-top: 40px;
+}
+
+.logo {
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 60px;
+}
+
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 18px 30px;
+  border-top: 2px solid #d9d9d9;
+  font-size: 18px;
+}
+
+.sidebar a:last-child {
+  border-bottom: 2px solid #d9d9d9;
+}
+
+.sidebar a:hover {
+  background-color: #44443f;
+}
+
+.main-content {
+  flex: 1;
+  padding: 30px;
+}
