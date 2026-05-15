@@ -1,3 +1,4 @@
+/* SideBar Layout */
 .app-layout {
   display: flex;
   min-height: 100vh;
@@ -41,4 +42,79 @@
 .main-content {
   flex: 1;
   padding: 30px;
+}
+
+/* Post Styling */
+.main-content {
+  flex: 1;
+  background-color: #001012;
+  min-height: 100vh;
+  padding: 40px;
+}
+
+.home-title {
+  text-align: center;
+  color: white;
+  margin-bottom: 30px;
+}
+
+.home-feed {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.post-card {
+  display: flex;
+  gap: 22px;
+  background-color: #2d2d2a;
+  border: 8px solid #d9d9d9;
+  border-radius: 6px;
+  padding: 22px;
+  margin-bottom: 24px;
+  color: white;
+}
+
+.post-avatar {
+  width: 64px;
+  height: 64px;
+  background-color: white;
+  color: black;
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+  font-size: 34px;
+}
+
+.post-main {
+  flex: 1;
+}
+
+.post-header {
+  background-color: #aaa99f;
+  color: #e63b2e;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-around;
+  padding: 6px;
+  border-radius: 5px;
+}
+
+.post-text,
+.post-tag {
+  margin-left: 180px;
+}
+
+.post-image {
+  display: block;
+  width: 320px;
+  margin: 12px auto;
+}
+
+.post-actions {
+  display: flex;
+  justify-content: center;
+  gap: 70px;
+  color: #e63b2e;
+  font-weight: bold;
 }
