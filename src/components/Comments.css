@@ -1,0 +1,12 @@
+/* Comment section styling */
+.comments-panel {
+  display: flex;
+  flex-direction: column;
+  background-color: #aaa99f; 
+}
+
+.comment-input {
+  display: flex;
+  flex-direction: row;
+  
+}
