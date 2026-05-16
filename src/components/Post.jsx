@@ -38,15 +38,13 @@ export function Post({ name, username, game, content, tag, likes, commentCount, 
           <span>{username}</span>
         </div>
 
+        {image && <img className="post-image" src={image} alt={game} />}
+
         <p className="post-text">
           {game} {content}
         </p>
 
         <p className="post-tag">{tag}</p>
-
-        {image && <img className="post-image" src={image} alt={game} />}
-
-        
 
         <div className="post-actions">
           <button onClick={handleLike}>❤️ {likeState}</button>

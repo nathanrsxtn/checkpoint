@@ -2,11 +2,13 @@
 .comments-panel {
   display: flex;
   flex-direction: column;
-  background-color: #aaa99f; 
+  background-color: #aaa99f;
+  color: #e63b2e;
+  margin-top: 1rem;
 }
 
 .comment-input {
   display: flex;
   flex-direction: row;
-  
+
 }

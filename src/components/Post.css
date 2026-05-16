@@ -65,10 +65,23 @@
   margin: 12px auto;
 }
 
+
+/* post button */
 .post-actions {
   display: flex;
   justify-content: center;
   gap: 70px;
   color: #e63b2e;
   font-weight: bold;
+  margin-top: 1rem;
+}
+
+.post-actions button {
+  cursor: pointer;
+  transition: transform 0.25s ease;
+
+}
+
+.post-actions button:hover {
+  transform: translateY(-2px) scale(1.1);
 }
