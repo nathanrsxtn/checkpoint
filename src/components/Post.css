@@ -56,7 +56,8 @@
 
 .post-text,
 .post-tag {
-  margin-left: 180px;
+  display: flex;
+  justify-content: center;
 }
 
 .post-image {
