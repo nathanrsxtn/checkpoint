@@ -6,7 +6,6 @@ body{
 .container{
   display: flex;
   height: 100vh;
-  width: 100vw;
 }
 
 .container .loginSplash{
@@ -19,7 +18,6 @@ body{
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 100vh;
   padding: 2rem;
   background: #2D2D2B;
   border-radius: 8px;
