@@ -29,7 +29,7 @@ function LoginForm() {
   };
 
   return (
-      <div class="container">
+      <div className="container">
         <img src={loginSplash} alt="loginSplash" className="loginSplash"></img> 
         
         <form className="Form" onSubmit={handleSubmit}>
