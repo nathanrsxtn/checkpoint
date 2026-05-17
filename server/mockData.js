@@ -1,6 +1,7 @@
 export const users = [
   {
     id: 1,
+    image: "/src/images/speedlol.jpg",
     name: "Albert",
     username: "@albert",
     postCount: 7,
