@@ -1,9 +1,10 @@
 import { useLoaderData, useParams } from "react-router";
 import "./ProfilePage.css";
+import { ProfilePostImage } from "@/components/ProfilePostImage.jsx";
 
 export function ProfilePage() {
   const { id } = useParams();
-  const profile = useLoaderData();
+  const { profile, posts } = useLoaderData();
 
   return (
     <>
@@ -23,7 +24,9 @@ export function ProfilePage() {
         </div>
       </div>
       <div className="post-section">
-        
+        {posts.map((post) => (
+          <ProfilePostImage key={post.id} src={post.image} alt={post.game} />
+        ))}       
       </div>
     </>
   );

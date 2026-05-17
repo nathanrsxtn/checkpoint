@@ -9,13 +9,14 @@
   margin: 0 auto;
   padding: 2rem;
   background-color: #2d2d2a;
+  margin-bottom: 5rem;
 }
 
 .profile-text {
   display: flex;
   height: 100%;
   flex-direction: column;
-  gap: 2rem;
+  justify-content: space-around;
   margin-left: 2rem;
 }
 
@@ -30,4 +31,9 @@
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   object-fit: cover;
+}
+
+.post-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* change later */
 }

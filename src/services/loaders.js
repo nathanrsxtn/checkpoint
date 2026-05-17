@@ -15,8 +15,11 @@ export async function postLoader({ params, request }) {
 export async function profileLoader({ params, request }) {
   const { id } = params;
   if (!id) throw new Response("Not Found", { status: 404 });
+
   const profile = await getProfile(id, request.signal);
-  return profile;
+  const posts = await getPosts(request.signal);
+
+  return { profile, posts };
 }
 
 export async function messagesLoader({ request }) {
