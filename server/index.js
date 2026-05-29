@@ -24,7 +24,6 @@ mongoose
   .catch((error) => console.error("MongoDB connection failed: ", error))
 
 const userSchema = new mongoose.Schema({
-  id: Number,
   name: {type: String, required: true, trim: true},
   username: {type: String, required: true, unique: true, trim: true, minLength: 3},
   email:{type: String, required:true, unique: true, lowercase: true, trim: true },
@@ -165,14 +164,18 @@ app.get("/api/users", async (req, res) => {
 });
 
 app.get("/api/users/:id", async (req, res) => {
-  const userId = Number(req.params.id);
-  const user = await User.findOne({ id: userId });
+  try {
+    const user = await User.findById(req.params.id).select("-password");
 
-  if (!user) {
-    return res.status(404).json({ error: "User not found" });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error("Get user error:", error);
+    res.status(400).json({ error: "Invalid user id" });
   }
-
-  res.json(user);
 });
 
 app.get("/api/posts", (req, res) => {
