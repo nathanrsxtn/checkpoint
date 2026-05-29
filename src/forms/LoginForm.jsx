@@ -9,9 +9,11 @@ function LoginForm() {
 
   const [password, setPassword] = useState("");
 
+  const [error, setError] = useState("");
+
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!username.includes("@")) {
@@ -22,6 +24,39 @@ function LoginForm() {
     if (password.length < 6) {
       toast.error("Password must be at least 6 characters.");
       return;
+    }
+
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        const message = data.error || "Login failed.";
+        setError(message);
+        toast.error(message);
+        return;
+      }
+
+      // TODO: Save BOTH the user and the token to localStorage.
+      //   - data.user  →  save under key "User" (JSON.stringify it)
+      //   - data.token →  save under key "token" (already a string)
+      //
+      //   Same pattern as SignupForm. The token is what powers the
+      //   ProtectedRoute redirect and the Authorization header on logout.
+      localStorage.setItem("User", JSON.stringify(data.user));
+      localStorage.setItem("token", data.token);
+
+      toast.success(data.message || `Welcome back, ${data.user.username}!`);
+      navigate("/profile");
+    } catch (err) {
+      console.error(err);
+      const message = "Network error. Is the server running?";
+      setError(message);
+      toast.error(message);
     }
 
     toast.success(`Welcome back, ${username}!`);

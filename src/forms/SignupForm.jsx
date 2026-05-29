@@ -19,9 +19,11 @@ function SignupForm() {
   // TODO: Add state for the confirm password field.
   const [confirm, setConfirm] = useState("");
 
+  const [error, setError] = useState("");
+
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!name.trim()) {
@@ -44,12 +46,53 @@ function SignupForm() {
       return;
     }
 
+    try {
+      const response = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        const message = data.error || "Signup failed.";
+        setError(message);
+        toast.error(message);
+        return;
+      }
+
+      // TODO: Save the response to localStorage.
+      //   - The server returned BOTH a user object AND a token string in this response:
+      //       data.user   →  { username, email }
+      //       data.token  →  a JWT string (long, starts with "eyJ")
+      //   - Save data.user under the key  "User"  (same as A6).
+      //   - Save data.token under the key  "token"  (NEW for A7).
+      //   - Both go in as JSON-stringified strings for User; the token is already a string.
+      //
+      //   The ProtectedRoute we build later reads  localStorage.token  to decide
+      //   whether the user is logged in, so it MUST be saved here for the redirect
+      //   to work after a successful signup.
+
+      localStorage.setItem("User", JSON.stringify(data.user));
+      localStorage.setItem("token", data.token);
+
+
+
+      toast.success(data.message || "Signup successful.");
+      navigate("/profile");
+    } catch (err) {
+      console.error(err);
+      const message = "Network error. Is the server running?";
+      setError(message);
+      toast.error(message);
+    }
+
     toast.success(`Welcome to PlateScout, ${name}!`);
     navigate("/");
   };
 
   return (
-      <div class="container">
+      <div className="container">
         <form className="Form" onSubmit={handleSubmit}>
           <h2>Sign up</h2>
 
