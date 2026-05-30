@@ -148,8 +148,16 @@ app.post("/api/login", async (req, res) => {
 
     return res.status(200).json({
       message: "Login successful.",
-      user: { username: user.username, email: user.email },
-      token,   // the JWT — the client saves this in localStorage
+      user: {
+        id: user._id,
+        name: user.name,
+        username: user.username,
+        email: user.email,
+        postCount: user.postCount,
+        followers: user.followers,
+        following: user.following,
+      },
+      token,
     });
   } catch (error) {
     console.error("Login error:", error);
