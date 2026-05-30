@@ -49,3 +49,23 @@
   display: flex;
 }
 
+.logout-btn {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 18px 30px;
+  border-top: 2px solid #d9d9d9;
+  font-size: 18px;
+
+  background: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: none;
+
+  text-align: left;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background-color: #44443f;
+}
