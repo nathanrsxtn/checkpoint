@@ -41,10 +41,32 @@ const messageSchema = new mongoose.Schema({
   Message: String,
 });
 
+const commentSchema = new mongoose.Schema({
+  userId: { type: Number, required: true },
+  textContent: { type: String, required: true },
+  likes: { type: Number, default: 0 }
+});
 
+const postSchema = new mongoose.Schema(
+  {
+    userId: { type: Number, required: true },
+    name: { type: String, required: true },
+    username: { type: String, required: true },
+    game: { type: String, required: true },
+    content: { type: String, required: true },
+    tag: { type: String, default: "" },
+    likes: { type: Number, default: 0 },
+    commentCount: { type: Number, default: 0 },
+    shareCount: { type: Number, default: 0 },
+    image: { type: String, default: "" },
+    comments: [commentSchema]
+  },
+  { collection: "posts" }
+);
 
 const User = mongoose.model("User", userSchema);
 const Message = mongoose.model("Message", messageSchema, "messages");
+const Post = mongoose.model("Post", postSchema, "posts");
 
 function validateInputs({ name, username, email, password }) {
 
@@ -178,7 +200,8 @@ app.get("/api/users/:id", async (req, res) => {
   }
 });
 
-app.get("/api/posts", (req, res) => {
+app.get("/api/posts", async (req, res) => {
+  const posts = await Post.find();
   res.json(posts);
 });
 
