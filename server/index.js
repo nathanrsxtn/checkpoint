@@ -14,7 +14,8 @@ const app = express();
 
 // Middleware — mount BEFORE any route 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 console.log("MONGO_URI exists?", !!process.env.MONGO_URI);
 // Connect Mongoose to MongoDB Atlas
@@ -49,7 +50,7 @@ const commentSchema = new mongoose.Schema({
 
 const postSchema = new mongoose.Schema(
   {
-    userId: { type: Number, required: true },
+    userId: { type: String, required: true },
     name: { type: String, required: true },
     username: { type: String, required: true },
     game: { type: String, required: true },
@@ -59,11 +60,11 @@ const postSchema = new mongoose.Schema(
     commentCount: { type: Number, default: 0 },
     shareCount: { type: Number, default: 0 },
     image: { type: String, default: "" },
-    comments: [commentSchema]
+    comments: [commentSchema],
+    createdAt: { type: Date, default: Date.now },
   },
   { collection: "posts" }
 );
-
 const User = mongoose.model("User", userSchema);
 const Message = mongoose.model("Message", messageSchema, "messages");
 const Post = mongoose.model("Post", postSchema, "posts");
@@ -209,26 +210,68 @@ app.get("/api/users/:id", async (req, res) => {
 });
 
 app.get("/api/posts", async (req, res) => {
-  const posts = await Post.find();
-  res.json(posts);
-});
-
-app.get("/api/posts/:id", (req, res) => {
-  const postId = Number(req.params.id);
-  const post = posts.find((p) => p.id === postId);
-
-  if (!post) {
-    return res.status(404).json({ error: "Post not found" });
+  try {
+    const posts = await Post.find().sort({ createdAt: -1 });
+    res.json(posts);
+  } catch (error) {
+    console.error("Get posts error:", error);
+    res.status(500).json({ error: "Failed to load posts." });
   }
-
-  res.json(post);
 });
 
-app.get("/api/users/:id/posts", (req, res) => {
-  const userId = Number(req.params.id);
-  const userPosts = posts.filter((p) => p.userId === userId);
+// Create Post
+app.post("/api/posts", async (req, res) => {
+  try {
+    const post = await Post.create({
+      userId: req.body.userId,
+      name: req.body.name,
+      username: req.body.username,
+      game: req.body.game,
+      content: req.body.content,
+      tag: req.body.tag,
+      image: req.body.image,
+      likes: 0,
+      commentCount: 0,
+      shareCount: 0,
+      comments: [],
+    });
 
-  res.json(userPosts);
+    res.status(201).json({
+      message: "Post created successfully.",
+      post,
+    });
+  } catch (error) {
+    console.error("Create post error:", error);
+    res.status(500).json({ error: "Failed to create post." });
+  }
+});
+
+app.get("/api/posts/:id", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    res.json(post);
+  } catch (error) {
+    console.error("Get post error:", error);
+    res.status(400).json({ error: "Invalid post id" });
+  }
+});
+
+app.get("/api/users/:id/posts", async (req, res) => {
+  try {
+    const userPosts = await Post.find({
+      userId: req.params.id,
+    }).sort({ createdAt: -1 });
+
+    res.json(userPosts);
+  } catch (error) {
+    console.error("Get user posts error:", error);
+    res.status(500).json({ error: "Failed to load user posts." });
+  }
 });
 
 app.get("/api/messages", async (req, res) => {

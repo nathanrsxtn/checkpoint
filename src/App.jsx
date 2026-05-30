@@ -11,7 +11,9 @@ import LoginForm from "@/forms/LoginForm.jsx";
 import SignupForm from "@/forms/SignupForm.jsx";
 import { homeLoader, postLoader, profileLoader, messagesLoader } from "@/services/loaders.js";
 import { MessagesPage } from "@/pages/MessagesPage.jsx";
+import { UploadPostPage } from "@/pages/UploadPostPage.jsx";
 import { Toaster } from "react-hot-toast";
+
 
 import "./App.css"; 
 
@@ -62,6 +64,10 @@ const router = createBrowserRouter([
         element: <ProfilePage />,
         errorElement: <ProfileError />,
         loader: profileLoader,
+      },
+      {
+        path: "upload",
+        element: <UploadPostPage />,
       },
       { 
         path: "login", 
