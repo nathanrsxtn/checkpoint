@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import "./ProfilePage.css";
+import { useLoaderData } from "react-router";
+import { Post } from "@/components/Post.jsx";
+
 
 export function ProfilePage() {
   const [user, setUser] = useState(null);
+  const { userPosts } = useLoaderData();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("User");
@@ -32,6 +36,12 @@ export function ProfilePage() {
           </div>
         </div>
       </div>
+
+      <div className="posts-container">
+          {userPosts.map((post) => (
+            <Post key={post.id} {...post} />
+          ))}
+        </div>
     </>
   );
 }

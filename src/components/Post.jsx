@@ -1,13 +1,15 @@
 import { useState } from "react";
 import "./Post.css";
 import { Comments } from "./Comments"
+import { Link, useNavigate } from "react-router";
 
-export function Post({ name, username, game, content, tag, likes, commentCount, shareCount, image }) {
+export function Post({ userId, name, username, game, content, tag, likes, commentCount, shareCount, image }) {
   const [likeState, setLikeState] = useState(likes);
   const [commentState, setCommentState] = useState(commentCount);
   const [shareState, setShareState] = useState(shareCount);
   const [liked, setLiked] = useState(false); // is post liked by user
   const [showComments, setShowComments] = useState(false);
+  const navigate = useNavigate();
 
   const handleLike = () => {
     if (!liked) {
@@ -21,6 +23,10 @@ export function Post({ name, username, game, content, tag, likes, commentCount, 
     }
   };
 
+  const userClick = () => {
+    navigate(`/profile/${userId}`);
+  };
+
   const toggleComments = () => {
     setShowComments((prev) => !prev);
   };
@@ -29,7 +35,7 @@ export function Post({ name, username, game, content, tag, likes, commentCount, 
     <>
     {/* Main card wrapper is post-card */}
     <article className="post-card">
-      <div className="post-avatar">👤</div>
+      <button onClick={userClick} className="post-avatar">👤</button>
 
       {/* Includes main post content */}
       <div className="post-main">

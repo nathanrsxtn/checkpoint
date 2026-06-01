@@ -14,12 +14,17 @@ export async function postLoader({ params, request }) {
 
 export async function profileLoader({ params, request }) {
   const { id } = params;
+  console.log(id);
   if (!id) throw new Response("Not Found", { status: 404 });
 
   const profile = await getProfile(id, request.signal);
-  const posts = await getPosts(request.signal);
 
-  return { profile, posts };
+  //gets all of the posts which is not the most efficent but
+  //I had extreme difficulty trying to get axios to just give the posts I asked for
+  const posts = await getPosts(request.signal);
+  const userPosts = posts.filter(post => post.userId === id);
+
+  return { profile, userPosts };
 }
 
 export async function messagesLoader({ request }) {

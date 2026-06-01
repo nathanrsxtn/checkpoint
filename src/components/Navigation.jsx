@@ -24,8 +24,6 @@ export function Navigation() {
         👤 Profile
       </Link>
 
-      <Link to="/post/1">🏞️ Post</Link>
-
       <Link to="/upload">➕ Create Post</Link>
 
       {/* if user is sign-in display logout button otherwise display sign in*/}
