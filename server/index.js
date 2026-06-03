@@ -31,7 +31,10 @@ const userSchema = new mongoose.Schema({
   postCount: {type: Number, default: 0},
   followers: {type: Number, default: 0},
   following: {type: Number, default: 0},
-  createdAt: {type: Date, default: Date.now}
+  createdAt: {type: Date, default: Date.now},
+  // list of people folllowed and followers
+  followerIds: { type: [String], default: [] },
+  followingIds: { type: [String], default: [] },
 });
 
 const messageSchema = new mongoose.Schema({
@@ -258,7 +261,9 @@ app.get("/api/posts", async (req, res) => {
   }
 });
 
-// Create Post
+// ============================================================
+// POST /api/posts
+// ============================================================
 app.post("/api/posts", async (req, res) => {
   try {
     const post = await Post.create({
@@ -310,6 +315,44 @@ app.get("/api/users/:id/posts", async (req, res) => {
   } catch (error) {
     console.error("Get user posts error:", error);
     res.status(500).json({ error: "Failed to load user posts." });
+  }
+});
+
+
+// Handles Following
+app.post("/api/users/:id/follow", async (req, res) => {
+  try {
+    const userToFollowId = req.params.id;
+    const { currentUserId } = req.body;
+    if (currentUserId === userToFollowId) {
+      return res.status(400).json({ error: "You cannot follow yourself." });
+    }
+    // find the person you want to follow by Id
+    const currentUser = await User.findById(currentUserId);
+    const userToFollow = await User.findById(userToFollowId);
+    if (!currentUser || !userToFollow) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    if (currentUser.followingIds.includes(userToFollowId)) {
+      return res.status(400).json({ error: "Already following this user." });
+    }
+    // Add followed user to following and current user to their followers
+    currentUser.followingIds.push(userToFollowId);
+    userToFollow.followerIds.push(currentUserId);
+    currentUser.following = currentUser.followingIds.length;
+    userToFollow.followers = userToFollow.followerIds.length;
+    await currentUser.save();
+    await userToFollow.save();
+
+    res.json({
+      message: "User followed.",
+      currentUser,
+      userToFollow,
+    });
+  } catch (error) {
+    console.error("Follow error:", error);
+    res.status(500).json({ error: "Failed to follow user." });
   }
 });
 

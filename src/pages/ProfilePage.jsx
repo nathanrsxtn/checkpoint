@@ -1,27 +1,42 @@
-import { useEffect, useState } from "react";
 import "./ProfilePage.css";
 import { useLoaderData } from "react-router";
 import { Post } from "@/components/Post.jsx";
 
-
 export function ProfilePage() {
-  const [user, setUser] = useState(null);
-  const { userPosts } = useLoaderData();
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem("User");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
+  const { profile, userPosts } = useLoaderData();
+  const user = profile;
   if (!user) {
     return (
       <>
         <h1>Profile</h1>
-        <p>You are not logged in.</p>
+        <p>User not found</p>
       </>
     );
   }
+  const loggedUser = JSON.parse(localStorage.getItem("User"));
+  const ownProfile = loggedUser && user._id && loggedUser.id === user._id.toString();
+  const handleFollow = async () => {
+    if (!loggedUser) {
+      alert("You must be logged in to follow users.");
+      return;
+    }
+    try {
+      const response = await fetch(`/api/users/${user._id}/follow`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ currentUserId: loggedUser.id }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        alert(data.error || "Failed to follow user.");
+        return;
+      }
+      window.location.reload();
+    } catch (error) {
+      console.error("Follow error:", error);
+    }
+  };
+
   return (
     <>
       <h1>Profile</h1>
@@ -34,14 +49,16 @@ export function ProfilePage() {
             <p>{user.followers} Followers</p>
             <p>{user.following} Following</p>
           </div>
+          {loggedUser && !ownProfile && (
+            <button onClick={handleFollow}>Follow</button>
+          )}
         </div>
       </div>
-
       <div className="posts-container">
-          {userPosts.map((post) => (
-            <Post key={post.id} {...post} />
-          ))}
-        </div>
+        {userPosts.map((post) => (
+          <Post key={post._id} {...post} />
+        ))}
+      </div>
     </>
   );
 }
