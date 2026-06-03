@@ -9,6 +9,14 @@ export function MessagesPage() {
   const [input, setInput] = useState("");
 
   const user = JSON.parse(localStorage.getItem("User"));
+  if(!user){
+    return(
+      <>
+      <h1>Messages</h1>
+      <p>You must be logged in to view messages.</p>
+        </>
+    );
+  }
   const currentUsername = `@${user.username}`;
 
   const people = [
