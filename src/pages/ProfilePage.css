@@ -37,3 +37,35 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* change later */
 }
+
+.follow-btn {
+  background-color: #e63b2e;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.follow-btn:hover {
+  transform: translateY(-2px);
+}
+
+.Unfollow-btn {
+  background-color: #aaa99f;
+  color: #2d2d2a;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.Unfollow-btn:hover {
+  transform: translateY(-2px);
+}
