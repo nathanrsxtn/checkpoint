@@ -5,20 +5,13 @@ import { Post } from "@/components/Post.jsx";
 
 
 export function ProfilePage() {
-  const [user, setUser] = useState(null);
-  const { userPosts } = useLoaderData();
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem("User");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
+  const { profile, userPosts } = useLoaderData();
+  const user = profile;
   if (!user) {
     return (
       <>
         <h1>Profile</h1>
-        <p>You are not logged in.</p>
+        <p>User not found</p>
       </>
     );
   }
@@ -39,7 +32,7 @@ export function ProfilePage() {
 
       <div className="posts-container">
           {userPosts.map((post) => (
-            <Post key={post.id} {...post} />
+            <Post key={post._id} {...post} />
           ))}
         </div>
     </>
