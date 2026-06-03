@@ -160,6 +160,8 @@ app.post("/api/login", async (req, res) => {
         postCount: user.postCount,
         followers: user.followers,
         following: user.following,
+        followerIds: user.followerIds,
+        followingIds: user.followingIds,
       },
       token,
     });
@@ -353,6 +355,39 @@ app.post("/api/users/:id/follow", async (req, res) => {
   } catch (error) {
     console.error("Follow error:", error);
     res.status(500).json({ error: "Failed to follow user." });
+  }
+});
+
+// Handles unfollowing
+app.post("/api/users/:id/unfollow", async (req, res) => {
+  try {
+    const userToUnfollowId = req.params.id;
+    const { currentUserId } = req.body;
+
+    const currentUser = await User.findById(currentUserId);
+    const userToUnfollow = await User.findById(userToUnfollowId);
+
+    if (!currentUser || !userToUnfollow) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    currentUser.followingIds = currentUser.followingIds.filter((id) => id !== userToUnfollowId);
+    userToUnfollow.followerIds = userToUnfollow.followerIds.filter((id) => id !== currentUserId);
+
+    currentUser.following = currentUser.followingIds.length;
+    userToUnfollow.followers = userToUnfollow.followerIds.length;
+
+    await currentUser.save();
+    await userToUnfollow.save();
+
+    res.json({
+      message: "User unfollowed.",
+      currentUser,
+      userToUnfollow,
+    });
+  } catch (error) {
+    console.error("Unfollow error:", error);
+    res.status(500).json({ error: "Failed to unfollow user." });
   }
 });
 
