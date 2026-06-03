@@ -1,0 +1,27 @@
+.posts-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.feed-filters {
+  display: flex;
+  justify-content: center;
+  gap: 10rem;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.feed-filter {
+  transition: transform 0.4s ease, color 0.1s ease;
+}
+
+.feed-filter:hover {
+  cursor: pointer;
+  transform: translateY(-5px);
+}
+
+.feed-filter.active {
+  color: rgb(255, 252, 62);
+}

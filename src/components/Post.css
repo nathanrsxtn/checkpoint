@@ -4,6 +4,7 @@
   background-color: #001012;
   min-height: 100vh;
   padding: 40px;
+  align-items: center;
 }
 
 .home-title {
@@ -15,10 +16,12 @@
 .home-feed {
   max-width: 760px;
   margin: 0 auto;
+
 }
 
 .post-card {
   display: flex;
+  width: 100%;
   gap: 22px;
   background-color: #2d2d2a;
   border: 8px solid #d9d9d9;
@@ -26,6 +29,7 @@
   padding: 22px;
   margin-bottom: 24px;
   color: white;
+  max-width: 1000px;
 }
 
 .post-avatar {

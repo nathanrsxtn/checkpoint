@@ -2,7 +2,7 @@ import { getPost, getPosts, getProfile, getMessages } from "@/services/api.js";
 
 export async function homeLoader({ request }) {
   const posts = await getPosts(request.signal);
-  return posts;
+  return { posts };
 }
 
 export async function postLoader({ params, request }) {

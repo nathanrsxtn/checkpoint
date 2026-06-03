@@ -6,7 +6,7 @@ export function HomeError() {
   return (
     <>
       <h1>Home View Error Page</h1>
-      <p>{error}</p>
+      <p>{error?.message || "Something went wrong with route."}</p>
     </>
   );
 }
