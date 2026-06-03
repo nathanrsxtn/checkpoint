@@ -3,13 +3,14 @@ import "./Post.css";
 import { Comments } from "./Comments"
 import { Link, useNavigate } from "react-router";
 
-export function Post({ userId, name, username, game, content, tag, likes, commentCount, shareCount, image }) {
+export function Post({ _id, id, userId, name, username, game, content, tag, likes, commentCount, shareCount, image, comments = [] }) {
   const [likeState, setLikeState] = useState(likes);
   const [commentState, setCommentState] = useState(commentCount);
   const [shareState, setShareState] = useState(shareCount);
   const [liked, setLiked] = useState(false); // is post liked by user
   const [showComments, setShowComments] = useState(false);
   const navigate = useNavigate();
+  const postId = _id || id;
 
   const handleLike = () => {
     if (!liked) {
@@ -54,10 +55,10 @@ export function Post({ userId, name, username, game, content, tag, likes, commen
 
         <div className="post-actions">
           <button onClick={handleLike}>❤️ {likeState}</button>
-          <button onClick={toggleComments}>💬 {commentCount}</button>
+          <button onClick={toggleComments}>💬 {commentState}</button>
           <button>📩 {shareCount}</button>
         </div>
-        {showComments && <Comments />}
+        {showComments && <Comments postId={postId} comments={comments} setCommentState={setCommentState}/>}
       </div>
     </article>
     </>

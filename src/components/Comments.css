@@ -12,3 +12,51 @@
   flex-direction: row;
 
 }
+
+.comments-panel {
+  background-color: #aaa99f;
+  margin-top: 1rem;
+  padding: 12px;
+  border-radius: 6px;
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.comment-box {
+  background-color: #2d2d2a;
+  border: 2px solid #d9d9d9;
+  border-radius: 6px;
+  padding: 10px;
+  color: white;
+}
+
+.comment-user {
+  color: #e63b2e;
+  font-weight: bold;
+}
+
+.comment-text {
+  color: white;
+}
+
+.comment-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.comment-input input {
+  flex: 1;
+  padding: 8px;
+}
+
+.comment-input button {
+  cursor: pointer;
+  padding: 8px 12px;
+}
+

@@ -17,7 +17,6 @@ app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
-console.log("MONGO_URI exists?", !!process.env.MONGO_URI);
 // Connect Mongoose to MongoDB Atlas
 mongoose
   .connect(process.env.MONGO_URI)
@@ -43,7 +42,8 @@ const messageSchema = new mongoose.Schema({
 });
 
 const commentSchema = new mongoose.Schema({
-  userId: { type: Number, required: true },
+  userId: { type: String, required: true },
+  username: { type: String, required: true },
   textContent: { type: String, required: true },
   likes: { type: Number, default: 0 }
 });
@@ -185,6 +185,45 @@ app.post("/api/messages", async (req,res) => {
   } catch(error) {
     console.log("Message error: ", error);
     return res.status(500).json({ error: "Failed to save message"});
+
+  }
+});
+
+// ============================================================
+// POST /api/comments
+// ============================================================
+app.post("/api/posts/:id/comments", async (req,res) => {
+  try {
+    const { userId, username, textContent } = req.body;
+
+    const comment = {
+      userId,
+      username,
+      textContent,
+      likes: 0,
+    }
+
+    const post = await Post.findByIdAndUpdate(
+      req.params.id,
+      {
+        $push: { comments: comment },
+        $inc: { commentCount: 1},
+      },
+      { new: true }
+    );
+
+    if(!post) {
+      return res.status(404).json({ error: "Post not found."});
+    }
+
+    return res.status(201).json({
+      message: "comment saved to MongoDB",
+      comment: post.comments[post.comments.length -1],
+      commentCount: post.commentCount,
+    });
+  } catch(error) {
+    console.log("Comment error: ", error);
+    return res.status(500).json({ error: "Failed to save comment"});
 
   }
 });
