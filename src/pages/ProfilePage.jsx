@@ -72,12 +72,14 @@ export function ProfilePage() {
             <p>{user.followers} Followers</p>
             <p>{user.following} Following</p>
           </div>
-          <button
-            className={isFollowing ? "Unfollow-btn" : "follow-btn"}
-            onClick={isFollowing ? handleUnfollow : handleFollow}
-          >
-            {isFollowing ? "Unfollow" : "Follow"}
-          </button>
+          {loggedUser && !ownProfile && (
+            <button
+              className={isFollowing ? "unfollow-btn" : "follow-btn"}
+              onClick={isFollowing ? handleUnfollow : handleFollow}
+            >
+              {isFollowing ? "Unfollow" : "Follow"}
+            </button>
+          )}
         </div>
       </div>
       <div className="posts-container">
