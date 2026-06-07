@@ -33,6 +33,18 @@ export function ProfilePage() {
         alert(data.error || "Failed to follow user.");
         return;
       }
+      // updates who you follow in right away to update friends tab
+      localStorage.setItem("User", JSON.stringify({
+        id: data.currentUser._id,
+        name: data.currentUser.name,
+        username: data.currentUser.username,
+        email: data.currentUser.email,
+        postCount: data.currentUser.postCount,
+        followers: data.currentUser.followers,
+        following: data.currentUser.following,
+        followerIds: data.currentUser.followerIds,
+        followingIds: data.currentUser.followingIds,
+      }));
       window.location.reload();
     } catch (error) {
       console.error("Follow error:", error);
@@ -53,7 +65,18 @@ export function ProfilePage() {
         alert(data.error || "Failed to unfollow user.");
         return;
       }
-
+      // updates who you follow in right away to update friends tab
+      localStorage.setItem("User", JSON.stringify({
+        id: data.currentUser._id,
+        name: data.currentUser.name,
+        username: data.currentUser.username,
+        email: data.currentUser.email,
+        postCount: data.currentUser.postCount,
+        followers: data.currentUser.followers,
+        following: data.currentUser.following,
+        followerIds: data.currentUser.followerIds,
+        followingIds: data.currentUser.followingIds,
+      }));
       window.location.reload();
     } catch (error) {
       console.error("Unfollow error:", error);
