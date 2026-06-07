@@ -1,4 +1,4 @@
-import { getPost, getPosts, getProfile, getMessages } from "@/services/api.js";
+import { getPost, getPosts, getProfile, getMessages, getUsers } from "@/services/api.js";
 
 export async function homeLoader({ request }) {
   const posts = await getPosts(request.signal);
@@ -29,5 +29,7 @@ export async function profileLoader({ params, request }) {
 
 export async function messagesLoader({ request }) {
   const messages = await getMessages(request.signal);
-  return { messages };
+  const users = await getUsers(request.signal);
+
+  return { messages, users };
 }

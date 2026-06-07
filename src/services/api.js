@@ -47,3 +47,13 @@ export async function getMessages() {
     return [];
   }
 }
+
+// get all users
+export async function getUsers(signal) {
+  try {
+    const response = await api.get("/users", { signal });
+    return response.data;
+  } catch (error) {
+    handleError(error);
+  }
+}

@@ -3,7 +3,7 @@ import { useState } from "react";
 import "./MessagesPage.css";
 
 export function MessagesPage() {
-  const { messages } = useLoaderData();
+  const { messages, users } = useLoaderData();
   const [messageList, setMessageList] = useState(messages);
   const [selectedUser, setSelectedUser] = useState(null);
   const [input, setInput] = useState("");
@@ -19,9 +19,10 @@ export function MessagesPage() {
   }
   const currentUsername = `@${user.username}`;
 
-  const people = [
-    ...new Set(messageList.map((message) => (message.Sender === currentUsername ? message.Recipient : message.Sender)).filter(Boolean)),
-  ];
+  // takes all users and returns a list of their usernames to message
+  const people = (users || [])
+    .filter((person) => person._id !== user.id)
+    .map((person) => `@${person.username}`);
 
   const selectedMessages = messageList.filter(
     (message) =>
