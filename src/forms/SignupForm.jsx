@@ -11,6 +11,7 @@ function SignupForm() {
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState("");
+  const image = "";
 
   const navigate = useNavigate();
 
@@ -46,7 +47,7 @@ function SignupForm() {
       const response = await fetch("/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, username, email, password }),
+        body: JSON.stringify({ name, username, email, image, password }),
       });
 
       const data = await response.json();

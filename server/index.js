@@ -27,6 +27,7 @@ const userSchema = new mongoose.Schema({
   name: {type: String, required: true, trim: true},
   username: {type: String, required: true, unique: true, trim: true, minLength: 3},
   email:{type: String, required:true, unique: true, lowercase: true, trim: true },
+  image: { type: String, default: "" },
   password:{type: String, required: true, minLength: 8},
   postCount: {type: Number, default: 0},
   followers: {type: Number, default: 0},
@@ -54,6 +55,7 @@ const commentSchema = new mongoose.Schema({
 const postSchema = new mongoose.Schema(
   {
     userId: { type: String, required: true },
+    userImage: { type: String, default: ""},
     name: { type: String, required: true },
     username: { type: String, required: true },
     game: { type: String, required: true },
@@ -255,8 +257,25 @@ app.get("/api/users/:id", async (req, res) => {
 
 app.get("/api/posts", async (req, res) => {
   try {
-    const posts = await Post.find().sort({ createdAt: -1 });
-    res.json(posts);
+    const posts = await Post.find().sort({ createdAt: -1 }).lean();
+
+    //this takes all of the posts we just grabbed from posts,
+    const postsWithLatestImages = await Promise.all(
+      posts.map(async (post) => {
+
+        //for each one it creats a user by finding them using their username
+        const user = await User.findOne({ username: post.username });
+        
+        //then it returns the post but makes it's userImage the latest one from the db
+        return {
+          ...post,
+          // Use the latest user image from the DB, fallback to their old post image
+          userImage: user && user.image ? user.image : post.userImage
+        };
+      })
+    );
+
+    res.json(postsWithLatestImages);
   } catch (error) {
     console.error("Get posts error:", error);
     res.status(500).json({ error: "Failed to load posts." });
@@ -268,8 +287,15 @@ app.get("/api/posts", async (req, res) => {
 // ============================================================
 app.post("/api/posts", async (req, res) => {
   try {
+
+    //when we create a post we need to get the user who is creating it,
+    //in doing that we can get thier profile picture and set it properly on the post
+    const user = await User.findOne({username: req.body.username});
+    const profilePictureString = user ? user.image : "";
+
     const post = await Post.create({
       userId: req.body.userId,
+      userImage: profilePictureString,
       name: req.body.name,
       username: req.body.username,
       game: req.body.game,
@@ -394,6 +420,51 @@ app.post("/api/users/:id/unfollow", async (req, res) => {
 app.get("/api/messages", async (req, res) => {
   const messages = await Message.find();
   res.json(messages);
+});
+
+// Handles updating profile picture
+app.post("/api/users/:id/picture", async (req, res) => {
+  try {
+
+    //get the id of the user trying to make the request
+    const { id } = req.params;
+
+    //get the user id of the person attempting to make the change as
+    //well as the base64 encoded string
+    const { currentUserId, profilePicture } = req.body;
+
+    //if the currentUserID trying to change the profile picture isn't
+    //the actual person who owns the account return an error.
+    if(currentUserId !== id){
+      return res.status(403).json({ error: "Unauthorized to update this profile picture." });
+    }
+
+    //check to see if they actually gave you something
+    if (!profilePicture || typeof profilePicture !== 'string') {
+      return res.status(400).json({ error: "Invalid or missing profilePicture string." });
+    }
+
+    //we use the id to find then subsequently update the profile picture.
+    const updateUser = await User.findByIdAndUpdate(
+      id, 
+      { image: profilePicture },
+      { returnDocument: 'after' } //this returns the updated document so we can user it below
+      //to update the frontedn
+    );
+
+    //if we didn't find a user
+    if (!updateUser) {
+      return res.status(404).json({ error: "User not found." });
+    }
+
+    return res.json({
+      message: "Profile picture updated.",
+      user: updateUser
+    });
+  } catch (error) {
+    console.error("Profile picture update error:", error);
+    res.status(500).json({ error: "Failed to update profile picture user." });
+  }
 });
 
 export default app;

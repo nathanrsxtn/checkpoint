@@ -3,7 +3,7 @@ import "./Post.css";
 import { Comments } from "./Comments"
 import { Link, useNavigate } from "react-router";
 
-export function Post({ _id, id, userId, name, username, game, content, tag, likes, commentCount, shareCount, image, comments = [] }) {
+export function Post({ _id, id, userId, userImage, name, username, game, content, tag, likes, commentCount, shareCount, image, comments = [] }) {
   const [likeState, setLikeState] = useState(likes);
   const [commentState, setCommentState] = useState(commentCount);
   const [shareState, setShareState] = useState(shareCount);
@@ -36,7 +36,8 @@ export function Post({ _id, id, userId, name, username, game, content, tag, like
     <>
     {/* Main card wrapper is post-card */}
     <article className="post-card">
-      <button onClick={userClick} className="post-avatar">👤</button>
+
+      <button onClick={userClick} className="post-avatar"><img src={userImage && userImage !== "" ? userImage : "https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg"} alt=""></img></button>
 
       {/* Includes main post content */}
       <div className="post-main">
