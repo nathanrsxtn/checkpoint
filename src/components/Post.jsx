@@ -41,6 +41,32 @@ export function Post({ _id, id, userId, userImage, name, username, game, content
     }
   };
 
+  // handle when a userclicks url, it should create a link to share
+  const handleShare = async () => {
+  try {
+    const response = await fetch(`/api/posts/${postId}/share`, {
+      method: "POST",
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      alert(data.error || "Failed to share post.");
+      return;
+    }
+
+    setShareState(data.post.shareCount);
+
+    // Builds a url to copy and adds it to the clipboard for sharing
+    const postUrl = `${window.location.origin}/post/${postId}`;
+    await navigator.clipboard.writeText(postUrl);
+
+    alert("Post link copied!");
+  } catch (error) {
+    console.error("Share error:", error);
+  }
+};
+
   const userClick = () => {
     navigate(`/profile/${userId}`);
   };
@@ -74,7 +100,7 @@ export function Post({ _id, id, userId, userImage, name, username, game, content
         <div className="post-actions">
           <button onClick={handleLike}>{liked ? "❤️" : "🩶"} {likeState}</button>
           <button onClick={toggleComments}>💬 {commentState}</button>
-          <button>📩 {shareCount}</button>
+          <button onClick={handleShare}>📩 {shareState}</button>
         </div>
         {showComments && <Comments postId={postId} comments={comments} setCommentState={setCommentState}/>}
       </div>

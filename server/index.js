@@ -509,4 +509,27 @@ app.post("/api/posts/:id/like", async (req, res) => {
   }
 });
 
+// Handles sharing a post
+app.post("/api/posts/:id/share", async (req, res) => {
+  try {
+    const post = await Post.findByIdAndUpdate(
+      req.params.id,
+      { $inc: { shareCount: 1 } },
+      { new: true }
+    );
+
+    if (!post) {
+      return res.status(404).json({ error: "Post not found." });
+    }
+
+    res.json({
+      message: "Post shared.",
+      post,
+    });
+  } catch (error) {
+    console.error("Share error:", error);
+    res.status(500).json({ error: "Failed to share post." });
+  }
+});
+
 export default app;
