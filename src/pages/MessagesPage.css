@@ -27,12 +27,14 @@ h1 {
   margin-top: 1rem;
 }
 
-.groups {
+.friends {
   background-color: #2d2d2a;
   border: 8px solid #d9d9d9;
   border-radius: 6px;
   padding: 5px;
   margin-top: 1rem;
+  max-height: 260px;
+  overflow-y: auto;
 }
 
 .people {
@@ -41,6 +43,8 @@ h1 {
   border-radius: 6px;
   padding: 5px;
   margin-top: 1rem;
+  max-height: 520px;
+  overflow-y: auto;
 }
 
 .expanded-message {
@@ -57,10 +61,6 @@ h1 {
 .message {
   border-bottom: 1px solid #e63b2e;
   padding: 5px;
-}
-
-.expanded-message-body {
-  flex: 1;
 }
 
 .input-section {
@@ -111,10 +111,12 @@ h1 {
 }
 
 .expanded-message-body {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 12px;
   padding: 12px;
+  overflow-y: auto;
 }
 
 .message-row {

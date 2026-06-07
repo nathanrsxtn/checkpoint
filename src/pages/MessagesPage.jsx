@@ -19,10 +19,15 @@ export function MessagesPage() {
   }
   const currentUsername = `@${user.username}`;
 
-  // takes all users and returns a list of their usernames to message
+  // gets all users and returns a list of their usernames to message
   const people = (users || [])
     .filter((person) => person._id !== user.id)
     .map((person) => `@${person.username}`);
+
+  // gets all friends (people user follows) from DB
+  const friends = (users || [])
+  .filter((person) => user.followingIds && user.followingIds.includes(person._id))
+  .map((person) => `@${person.username}`);
 
   const selectedMessages = messageList.filter(
     (message) =>
@@ -79,8 +84,20 @@ export function MessagesPage() {
             <h1>Search</h1>
           </div>
 
-          <div className="groups">
-            <h1>Groups</h1>
+          <div className="friends">
+            <h1>Friends</h1>
+
+            {friends.map((friend) => (
+              <button
+                className={`person-item ${selectedUser === friend ? "active-person" : ""}`}
+                key={friend}
+                onClick={() => setSelectedUser(friend)}
+              >
+                <p>
+                  <strong>{friend}</strong>
+                </p>
+              </button>
+            ))}
           </div>
 
           <div className="people">
