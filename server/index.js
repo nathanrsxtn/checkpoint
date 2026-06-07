@@ -67,6 +67,8 @@ const postSchema = new mongoose.Schema(
     image: { type: String, default: "" },
     comments: [commentSchema],
     createdAt: { type: Date, default: Date.now },
+    likes: { type: Number, default: 0 },
+    likedBy: { type: [String], default: [] },
   },
   { collection: "posts" }
 );
@@ -464,6 +466,44 @@ app.post("/api/users/:id/picture", async (req, res) => {
   } catch (error) {
     console.error("Profile picture update error:", error);
     res.status(500).json({ error: "Failed to update profile picture user." });
+  }
+});
+
+// Handles liking and removing that like functionality
+app.post("/api/posts/:id/like", async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const { userId } = req.body;
+
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({ error: "Post not found." });
+    }
+
+    if (!userId) {
+      return res.status(400).json({ error: "User must be logged in." });
+    }
+
+    const alreadyLiked = post.likedBy.includes(userId);
+
+    if (alreadyLiked) {
+      post.likedBy = post.likedBy.filter((id) => id !== userId);
+    } else {
+      post.likedBy.push(userId);
+    }
+
+    post.likes = post.likedBy.length;
+
+    await post.save();
+
+    res.json({
+      message: alreadyLiked ? "Post unliked." : "Post liked.",
+      post,
+    });
+  } catch (error) {
+    console.error("Like error:", error);
+    res.status(500).json({ error: "Failed to like post." });
   }
 });
 
