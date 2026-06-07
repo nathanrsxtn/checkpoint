@@ -7,6 +7,7 @@ export function MessagesPage() {
   const [messageList, setMessageList] = useState(messages);
   const [selectedUser, setSelectedUser] = useState(null);
   const [input, setInput] = useState("");
+  const [searchInput, setSearchInput] = useState("");
 
   const user = JSON.parse(localStorage.getItem("User"));
   if(!user){
@@ -35,6 +36,23 @@ export function MessagesPage() {
       ((message.Sender === currentUsername && message.Recipient === selectedUser) ||
         (message.Sender === selectedUser && message.Recipient === currentUsername)),
   );
+
+  // for searching a specific user
+  const handleSearchUser = () => {
+  const typedUsername = searchInput.trim().replace("@", "");
+
+  const foundUser = (users || []).find(
+    (person) => person.username.toLowerCase() === typedUsername.toLowerCase()
+  );
+
+  if (!foundUser || foundUser._id === user.id) {
+    alert("User not found.");
+    return;
+  }
+
+  setSelectedUser(`@${foundUser.username}`);
+  setSearchInput("");
+};
 
   const handleSendMessage = async () => {
     if (!input.trim() || !user) return;
@@ -78,10 +96,23 @@ export function MessagesPage() {
   return (
     <>
       <h1>Messages</h1>
+
       <div className="messages-page">
         <div className="left-side">
           <div className="search">
             <h1>Search</h1>
+
+            <div className="search-controls">
+              <input
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                placeholder="Enter username"
+              />
+
+              <button className="search-button" onClick={handleSearchUser}>
+                Search
+              </button>
+            </div>
           </div>
 
           <div className="friends">
@@ -89,7 +120,9 @@ export function MessagesPage() {
 
             {friends.map((friend) => (
               <button
-                className={`person-item ${selectedUser === friend ? "active-person" : ""}`}
+                className={`person-item ${
+                  selectedUser === friend ? "active-person" : ""
+                }`}
                 key={friend}
                 onClick={() => setSelectedUser(friend)}
               >
@@ -104,10 +137,12 @@ export function MessagesPage() {
             <h1>People</h1>
 
             {people.map((person) => (
-              <button 
-              className = {`person-item ${selectedUser === person ? "active-person" : ""}`} 
-              key={person} 
-              onClick={() => setSelectedUser(person)}
+              <button
+                className={`person-item ${
+                  selectedUser === person ? "active-person" : ""
+                }`}
+                key={person}
+                onClick={() => setSelectedUser(person)}
               >
                 <p>
                   <strong>{person}</strong>
@@ -122,34 +157,48 @@ export function MessagesPage() {
             <h1>Expanded Message</h1>
 
             <div className="expanded-message-body">
-            {selectedUser ? (
-              selectedMessages.map((message) => {
-                const isMine = message.Sender === currentUsername;
+              {selectedUser ? (
+                selectedMessages.map((message) => {
+                  const isMine = message.Sender === currentUsername;
 
-                return (
-                <div 
-                key={message._id || message.messageNum}
-                className={`message-row ${isMine ? "mine" : "theirs"}`}>
-                <div className="message-bubble">
-                  <div className="message-sender">
-                    {isMine ? "You" : message.Sender}
-                  </div>
-                  <div className="message-text">
-                    {message.Message}
-                  </div>
-                </div>
-                </div>
-              );
-})
-            ) : (<p>Select a person to view message</p>)}
+                  return (
+                    <div
+                      key={message._id || message.messageNum}
+                      className={`message-row ${
+                        isMine ? "mine" : "theirs"
+                      }`}
+                    >
+                      <div className="message-bubble">
+                        <div className="message-sender">
+                          {isMine ? "You" : message.Sender}
+                        </div>
 
-
-
+                        <div className="message-text">
+                          {message.Message}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })
+              ) : (
+                <p>Select a person to view message</p>
+              )}
             </div>
 
             <div className="input-section">
-              <input id="message-field" value={input} onChange={(e) => setInput(e.target.value)} placeholder="Type your message here" />
-              <button className="send-button" onClick={handleSendMessage}>Send</button>
+              <input
+                id="message-field"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Type your message here"
+              />
+
+              <button
+                className="send-button"
+                onClick={handleSendMessage}
+              >
+                Send
+              </button>
             </div>
           </div>
         </div>
