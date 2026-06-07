@@ -310,6 +310,8 @@ app.post("/api/posts", async (req, res) => {
       comments: [],
     });
 
+    await User.findByIdAndUpdate(req.body.userId, {$inc: { postCount: 1 },});
+
     res.status(201).json({
       message: "Post created successfully.",
       post,
