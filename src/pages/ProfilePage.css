@@ -1,0 +1,71 @@
+.profile-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 60%;
+  height: auto;
+  border: 8px solid #d9d9d9;
+  border-radius: 10px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #2d2d2a;
+  margin-bottom: 5rem;
+}
+
+.profile-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-left: 2rem;
+}
+
+.profile-stats {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+}
+
+.profile-image {
+  height: 80px;
+  width: 80px;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.post-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* change later */
+}
+
+.follow-btn {
+  background-color: #e63b2e;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.follow-btn:hover {
+  transform: translateY(-2px);
+}
+
+.unfollow-btn {
+  background-color: #aaa99f;
+  color: #2d2d2a;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: transform 0.2s ease;
+}
+
+.unfollow-btn:hover {
+  transform: translateY(-2px);
+}

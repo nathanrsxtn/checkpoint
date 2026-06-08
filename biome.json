@@ -1,0 +1,57 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.4.14/schema.json",
+  "formatter": {
+    "indentStyle": "space",
+    "lineWidth": 140
+  },
+  "linter": {
+    "rules": {
+      "style": {
+        "noRestrictedGlobals": "error",
+        "useComponentExportOnlyModules": "error"
+      },
+      "correctness": {
+        "noUndeclaredDependencies": "on",
+        "noUndeclaredVariables": "on",
+        "noUnresolvedImports": "off",
+        "useImportExtensions": "on"
+      },
+      "nursery": {
+        "useSortedClasses": "on"
+      }
+    }
+  },
+  "css": {
+    "parser": {
+      "cssModules": true,
+      "tailwindDirectives": true
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["src/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noDefaultExport": "on",
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": ["./**", "../**", "/**"],
+                    "message": "Use @ alias for source files"
+                  },
+                  {
+                    "group": ["@/**", "!@/**/*.*"],
+                    "message": "Use file extensions for source files"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
