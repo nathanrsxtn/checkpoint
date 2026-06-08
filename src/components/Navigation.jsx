@@ -1,10 +1,21 @@
+import { Home, LogIn, LogOut, MessageSquare, PlusCircle, User } from "lucide-react";
 import { Link, useNavigate } from "react-router";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar.jsx";
 
 export function Navigation() {
-  const user = JSON.parse(localStorage.getItem("User"));
-  // Handles Logout
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("User"));
 
   const handleLogout = () => {
     localStorage.removeItem("User");
@@ -13,29 +24,77 @@ export function Navigation() {
     toast.success("Logged out.");
     navigate("/login");
   };
+
   return (
-    <nav className="sidebar">
-      <div className="logo">🏁 CheckPoint</div>
+    <Sidebar>
+      <SidebarHeader>
+        <div className="font-bold text-xl">🏁 CheckPoint</div>
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/">
+                    <Home /> Home
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
 
-      <Link to="/">🏠 Home</Link>
-      <Link to="/messages">💬 Messages</Link>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/messages">
+                    <MessageSquare /> Messages
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
 
-      <Link to={user ? `/profile/${user.id}` : "/login"}>
-        👤 Profile
-      </Link>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to={user ? `/profile/${user.id}` : "/login"}>
+                    <User /> Profile
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
 
-      <Link to="/upload">➕ Create Post</Link>
+        <SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/upload">
+                    <PlusCircle /> Create Post
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
 
-      {/* if user is sign-in display logout button otherwise display sign in*/}
-      {!user ? (
-        <>
-          <Link to="/login">Sign In</Link>
-        </>
-      ) : (
-        <button onClick={handleLogout} className="logout-btn">
-          🚪 Log Out
-        </button>
-      )}
-    </nav>
+      <SidebarFooter>
+        <SidebarMenu>
+          {!user ? (
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <Link to="/login">
+                  <LogIn /> Sign In
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          ) : (
+            <SidebarMenuItem>
+              <SidebarMenuButton onClick={handleLogout}>
+                <LogOut /> Log Out
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          )}
+        </SidebarMenu>
+      </SidebarFooter>
+    </Sidebar>
   );
 }

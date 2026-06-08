@@ -1,10 +1,150 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/oxanium";
+@import "@fontsource-variable/jetbrains-mono";
 
-html,
-body,
-#root {
-  margin: 0;
-  min-height: 100%;
-  background-color: white;
-  color: black;
+:root {
+  --theme-gray-black: oklch(0 0 0);
+  --theme-gray-dark: oklch(0.2 0 0);
+  --theme-gray-medium: oklch(0.6 0 0);
+  --theme-gray-light: oklch(0.9 0 0);
+  --theme-gray-white: oklch(1 0 0);
+  --theme-red: oklch(0.6 0.25 30);
+
+  --background: color-mix(in oklch, var(--theme-gray-black) 28%, var(--theme-gray-dark));
+  --foreground: color-mix(in oklch, var(--theme-gray-white) 98%, var(--theme-gray-light));
+
+  --card: var(--theme-gray-dark);
+  --card-foreground: color-mix(in oklch, var(--theme-gray-white) 98%, var(--theme-gray-light));
+
+  --popover: var(--theme-gray-dark);
+  --popover-foreground: color-mix(in oklch, var(--theme-gray-white) 98%, var(--theme-gray-light));
+
+  --primary: color-mix(in oklch, var(--theme-red) 74%, var(--theme-gray-black));
+  --primary-foreground: var(--theme-gray-white);
+
+  --secondary: color-mix(in oklch, var(--theme-gray-dark) 82%, var(--theme-gray-medium));
+  --secondary-foreground: color-mix(in oklch, var(--theme-gray-white) 98%, var(--theme-gray-light));
+
+  --muted: color-mix(in oklch, var(--theme-gray-dark) 78%, var(--theme-gray-medium));
+  --muted-foreground: color-mix(in oklch, var(--theme-gray-medium) 64%, var(--theme-gray-light));
+
+  --accent: color-mix(in oklch, var(--theme-gray-dark) 78%, var(--theme-gray-medium));
+  --accent-foreground: color-mix(in oklch, var(--theme-gray-white) 98%, var(--theme-gray-light));
+
+  --destructive: color-mix(in oklch, var(--theme-red) 84%, var(--theme-gray-white));
+
+  --border: color-mix(in oklch, transparent 90%, var(--theme-gray-white));
+  --input: color-mix(in oklch, transparent 85%, var(--theme-gray-white));
+
+  --ring: var(--theme-gray-medium);
+
+  --chart-1: color-mix(in oklch, var(--theme-red) 42%, var(--theme-gray-white));
+  --chart-2: color-mix(in oklch, var(--theme-red) 100%, var(--theme-gray-white));
+  --chart-3: color-mix(in oklch, var(--theme-red) 96%, var(--theme-gray-black));
+  --chart-4: color-mix(in oklch, var(--theme-red) 84%, var(--theme-gray-black));
+  --chart-5: color-mix(in oklch, var(--theme-red) 74%, var(--theme-gray-black));
+
+  --sidebar: var(--theme-gray-dark);
+  --sidebar-foreground: color-mix(in oklch, var(--theme-gray-white) 98%, var(--theme-gray-light));
+
+  --sidebar-primary: color-mix(in oklch, var(--theme-red) 100%, var(--theme-gray-white));
+  --sidebar-primary-foreground: var(--theme-gray-white);
+
+  --sidebar-accent: color-mix(in oklch, var(--theme-gray-dark) 78%, var(--theme-gray-medium));
+  --sidebar-accent-foreground: color-mix(in oklch, var(--theme-gray-white) 98%, var(--theme-gray-light));
+
+  --sidebar-border: color-mix(in oklch, transparent 90%, var(--theme-gray-white));
+  --sidebar-ring: var(--theme-gray-medium);
+
+  --post-background: #2d2d2a;
+  --post-border: var(--theme-gray-light);
+  --post-text: var(--theme-gray-white);
+
+  --post-header-background: #aaa99f;
+  --post-header-text: var(--theme-red);
+
+  --post-image-border: var(--theme-gray-medium);
+  --post-placeholder-background: var(--theme-gray-light);
+  --post-placeholder-text: var(--theme-gray-medium);
+
+  --post-action-background: var(--theme-red);
+  --post-action-background-hover: var(--primary);
+  --post-action-text: var(--theme-gray-white);
+}
+
+@theme inline {
+  --font-sans: "Oxanium Variable", sans-serif;
+  --font-heading: "JetBrains Mono Variable", monospace;
+
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  --color-post-background: var(--post-background);
+  --color-post-border: var(--post-border);
+  --color-post-text: var(--post-text);
+
+  --color-post-header-background: var(--post-header-background);
+  --color-post-header-text: var(--post-header-text);
+
+  --color-post-image-border: var(--post-image-border);
+  --color-post-placeholder-background: var(--post-placeholder-background);
+  --color-post-placeholder-text: var(--post-placeholder-text);
+
+  --color-post-action-background: var(--post-action-background);
+  --color-post-action-background-hover: var(--post-action-background-hover);
+  --color-post-action-text: var(--post-action-text);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  html {
+    @apply font-sans;
+  }
 }
