@@ -37,15 +37,11 @@ export function Post({
   const postId = _id || id;
 
   const handleLike = async () => {
-    if (!currentUser) {
-      return;
-    }
-
     try {
       const response = await fetch(`/api/posts/${postId}/like`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: currentUser.id }),
+        body: JSON.stringify({ userId: currentUser?.id }),
       });
 
       const data = await response.json();
