@@ -6,12 +6,13 @@ body{
 .container{
   display: flex;
   height: 100vh;
+  max-width: none;
 }
 
 .container .loginSplash{
   width: 70%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .container .Form {
