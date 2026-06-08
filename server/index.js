@@ -72,9 +72,10 @@ const postSchema = new mongoose.Schema(
   },
   { collection: "posts" }
 );
-const User = mongoose.model("User", userSchema);
+// export to use in tests
+export const User = mongoose.model("User", userSchema);
 const Message = mongoose.model("Message", messageSchema, "messages");
-const Post = mongoose.model("Post", postSchema, "posts");
+export const Post = mongoose.model("Post", postSchema, "posts");
 
 function validateInputs({ name, username, email, password }) {
 
