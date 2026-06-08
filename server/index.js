@@ -3,15 +3,15 @@ import express from "express";
 import mongoose, { mongo } from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
-import "dotenv/config";
+import dotenv from "dotenv"; 
 import { posts, messages } from "./mockData.js";
-
 import dns from "node:dns";
+
+dotenv.config();
 dns.setServers(["8.8.8.8", "1.1.1.1"]);
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 // Middleware — mount BEFORE any route 
