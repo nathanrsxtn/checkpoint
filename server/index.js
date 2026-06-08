@@ -81,7 +81,6 @@ const postSchema = new mongoose.Schema(
     image: { type: String, default: "" },
     comments: [commentSchema],
     createdAt: { type: Date, default: Date.now },
-    likes: { type: Number, default: 0 },
     likedBy: { type: [String], default: [] },
   },
   { collection: "posts" }
