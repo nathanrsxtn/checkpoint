@@ -11,15 +11,22 @@ import dns from "node:dns";
 dns.setServers(["8.8.8.8", "1.1.1.1"]);
 
 const app = express();
-
-const PORT = process.env.PORT || 5000;
-
-// 2. Start the server and bind to 0.0.0.0
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server successfully running on port ${PORT}`);
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 // Middleware — mount BEFORE any route 
+
+// server.js — add to the top middleware section
+//const cors = require("cors");
+app.use(cors({
+  origin: [
+    "http://localhost:5173",                       // dev
+    "https://checkpoint-pink.vercel.app",          // <-- your Vercel URL (after Step D)
+    /\.vercel\.app$/,                              // optional: preview branches
+  ],
+  credentials: true,
+}));
+
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
@@ -102,6 +109,15 @@ function validateInputs({ name, username, email, password }) {
   }
   return "";
 }
+
+// server.js — add anywhere in your routes section
+app.get("/api/health", (req, res) => {
+  res.json({
+    status: "ok",
+    time: new Date().toISOString(),
+    mongo: mongoose.connection.readyState === 1,
+  });
+});
 
 // ============================================================
 // POST /api/register
