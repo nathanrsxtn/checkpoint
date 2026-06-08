@@ -87,7 +87,7 @@ export function Post({
   };
 
   return (
-    <Card className="w-full rounded-[6px] border-8 border-post-border bg-post-background text-post-text">
+    <Card className="w-full max-w-3xl rounded-[6px] border-8 border-post-border bg-post-background text-post-text">
       <CardContent className="px-[22px]">
         <div className="flex gap-[22px]">
           <Button
