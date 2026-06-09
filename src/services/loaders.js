@@ -14,7 +14,6 @@ export async function postLoader({ params, request }) {
 
 export async function profileLoader({ params, request }) {
   const { id } = params;
-  console.log(id);
   if (!id) throw new Response("Not Found", { status: 404 });
 
   const profile = await getProfile(id, request.signal);
@@ -22,7 +21,9 @@ export async function profileLoader({ params, request }) {
   //gets all of the posts which is not the most efficent but
   //I had extreme difficulty trying to get axios to just give the posts I asked for
   const posts = await getPosts(request.signal);
-  const userPosts = posts.filter((post) => post.userId === id);
+  const sparseUserPosts = posts.filter((post) => post.userId === id);
+
+  const userPosts = await Promise.all(sparseUserPosts.map((post) => getPost(post._id, request.signal)));
 
   return { profile, userPosts };
 }

@@ -148,7 +148,7 @@ export function ProfilePage() {
             ></img>
           </label>
         )}
-        {loggedUser && !ownProfile && (
+        {!ownProfile && (
           <img
             className="post-avatar"
             src={
@@ -197,7 +197,7 @@ export function ProfilePage() {
       </div>
       <div className="posts-container">
         {userPosts.map((post) => (
-          <Post key={post._id} {...post} />
+          <Post key={post._id} post={post} />
         ))}
       </div>
     </>

@@ -248,7 +248,7 @@ app.post("/api/posts/:id/comments", async (req, res) => {
 });
 
 app.get("/api/users", async (req, res) => {
-  const users = await User.find();
+  const users = await User.find().select("-image -password");
   res.json(users);
 });
 
@@ -269,27 +269,30 @@ app.get("/api/users/:id", async (req, res) => {
 
 app.get("/api/posts", async (req, res) => {
   try {
-    const posts = await Post.find().sort({ createdAt: -1 }).lean();
-
-    //this takes all of the posts we just grabbed from posts,
-    const postsWithLatestImages = await Promise.all(
-      posts.map(async (post) => {
-        //for each one it creats a user by finding them using their username
-        const user = await User.findOne({ username: post.username });
-
-        //then it returns the post but makes it's userImage the latest one from the db
-        return {
-          ...post,
-          // Use the latest user image from the DB, fallback to their old post image
-          userImage: user?.image ? user.image : post.userImage,
-        };
-      }),
-    );
-
-    res.json(postsWithLatestImages);
+    // Only get post text data. Use the /api/posts/:id request to get all the data for a post.
+    const posts = await Post.find().select("-password -image -userImage").sort({ createdAt: -1 }).lean();
+    res.json(posts);
   } catch (error) {
     console.error("Get posts error:", error);
     res.status(500).json({ error: "Failed to load posts." });
+  }
+});
+
+app.get("/api/posts/:id", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id).lean();
+
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    // Get the user's most recent image
+    const user = await User.findById(post.userId, { image: 1 });
+
+    res.json({ ...post, userImage: user?.image ?? post.userImage });
+  } catch (error) {
+    console.error("Get post error:", error);
+    res.status(400).json({ error: "Invalid post id" });
   }
 });
 
@@ -327,21 +330,6 @@ app.post("/api/posts", async (req, res) => {
   } catch (error) {
     console.error("Create post error:", error);
     res.status(500).json({ error: "Failed to create post." });
-  }
-});
-
-app.get("/api/posts/:id", async (req, res) => {
-  try {
-    const post = await Post.findById(req.params.id);
-
-    if (!post) {
-      return res.status(404).json({ error: "Post not found" });
-    }
-
-    res.json(post);
-  } catch (error) {
-    console.error("Get post error:", error);
-    res.status(400).json({ error: "Invalid post id" });
   }
 });
 
@@ -483,7 +471,7 @@ app.post("/api/posts/:id/like", async (req, res) => {
     const postId = req.params.id;
     const { userId } = req.body;
 
-    const post = await Post.findById(postId);
+    const post = await Post.findById(postId, { image: 0, userImage: 0 });
 
     if (!post) {
       return res.status(404).json({ error: "Post not found." });

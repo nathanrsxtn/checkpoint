@@ -52,7 +52,7 @@ export function HomePage() {
 
       <div className="posts-container">
         {filteredFeed().map((post) => (
-          <Post key={post._id} {...post} />
+          <Post key={post._id} post={post} />
         ))}
       </div>
     </>
