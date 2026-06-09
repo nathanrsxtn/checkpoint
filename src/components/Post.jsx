@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { Comments } from "@/components/Comments.jsx";
@@ -18,11 +19,14 @@ export function Post({ post: initialPost }) {
 
   const [liked, setLiked] = useState(currentUser && initialPost?.likedBy?.includes(currentUser.id));
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [showComments, setShowComments] = useState(false);
+
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1, rootMargin: "0px" });
 
   useEffect(() => {
     if (!postId) return;
+    if (!inView) return;
 
     const controller = new AbortController();
     let mounted = true;
@@ -48,7 +52,7 @@ export function Post({ post: initialPost }) {
       mounted = false;
       controller.abort();
     };
-  }, [postId, currentUser?.id]);
+  }, [postId, inView, currentUser?.id]);
 
   const handleLike = async () => {
     try {
@@ -82,7 +86,7 @@ export function Post({ post: initialPost }) {
   if (!post) return null;
 
   return (
-    <Card className="w-full max-w-3xl rounded-[6px] border-8 border-post-border bg-post-background text-post-text">
+    <Card ref={ref} className="w-full max-w-3xl rounded-[6px] border-8 border-post-border bg-post-background text-post-text">
       <CardContent className="px-[22px]">
         <div className="flex gap-[22px]">
           <Button
@@ -118,7 +122,7 @@ export function Post({ post: initialPost }) {
                 </div>
               ) : (
                 post.image && (
-                  <div className="mb-3 flex justify-center">
+                  <div className="mb-3 flex min-h-[280px] justify-center">
                     <img src={post.image} alt={post.game} className="w-[500px] max-w-full object-contain" />
                   </div>
                 )
