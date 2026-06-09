@@ -10,7 +10,6 @@
 .comment-input {
   display: flex;
   flex-direction: row;
-
 }
 
 .comments-panel {
@@ -59,4 +58,3 @@
   cursor: pointer;
   padding: 8px 12px;
 }
-

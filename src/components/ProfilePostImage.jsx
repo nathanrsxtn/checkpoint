@@ -4,13 +4,5 @@ export function ProfilePostImage({ src, alt }) {
     //todo: expand posts on user profile when clicked
   };
 
-  return (
-    <img
-      className="post-image"
-      src={src}
-      alt={alt}
-      onClick={handleClick}
-      style={{ cursor: "pointer" }}
-    />
-  );
+  return <img className="post-image" src={src} alt={alt} onPointerUp={handleClick} style={{ cursor: "pointer" }} />;
 }

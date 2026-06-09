@@ -1,4 +1,4 @@
-import "./ProfilePage.css";
+import "@/pages/ProfilePage.css";
 import { useLoaderData } from "react-router";
 import { Post } from "@/components/Post.jsx";
 
@@ -15,7 +15,7 @@ export function ProfilePage() {
   }
   const loggedUser = JSON.parse(localStorage.getItem("User"));
   const ownProfile = loggedUser && user._id && loggedUser.id === user._id.toString();
-  const isFollowing = loggedUser && user.followerIds && user.followerIds.includes(loggedUser.id);
+  const isFollowing = loggedUser && user.followerIds?.includes(loggedUser.id);
 
   const handleFollow = async () => {
     if (!loggedUser) {
@@ -34,17 +34,20 @@ export function ProfilePage() {
         return;
       }
       // updates who you follow in right away to update friends tab
-      localStorage.setItem("User", JSON.stringify({
-        id: data.currentUser._id,
-        name: data.currentUser.name,
-        username: data.currentUser.username,
-        email: data.currentUser.email,
-        postCount: data.currentUser.postCount,
-        followers: data.currentUser.followers,
-        following: data.currentUser.following,
-        followerIds: data.currentUser.followerIds,
-        followingIds: data.currentUser.followingIds,
-      }));
+      localStorage.setItem(
+        "User",
+        JSON.stringify({
+          id: data.currentUser._id,
+          name: data.currentUser.name,
+          username: data.currentUser.username,
+          email: data.currentUser.email,
+          postCount: data.currentUser.postCount,
+          followers: data.currentUser.followers,
+          following: data.currentUser.following,
+          followerIds: data.currentUser.followerIds,
+          followingIds: data.currentUser.followingIds,
+        }),
+      );
       window.location.reload();
     } catch (error) {
       console.error("Follow error:", error);
@@ -66,17 +69,20 @@ export function ProfilePage() {
         return;
       }
       // updates who you follow in right away to update friends tab
-      localStorage.setItem("User", JSON.stringify({
-        id: data.currentUser._id,
-        name: data.currentUser.name,
-        username: data.currentUser.username,
-        email: data.currentUser.email,
-        postCount: data.currentUser.postCount,
-        followers: data.currentUser.followers,
-        following: data.currentUser.following,
-        followerIds: data.currentUser.followerIds,
-        followingIds: data.currentUser.followingIds,
-      }));
+      localStorage.setItem(
+        "User",
+        JSON.stringify({
+          id: data.currentUser._id,
+          name: data.currentUser.name,
+          username: data.currentUser.username,
+          email: data.currentUser.email,
+          postCount: data.currentUser.postCount,
+          followers: data.currentUser.followers,
+          following: data.currentUser.following,
+          followerIds: data.currentUser.followerIds,
+          followingIds: data.currentUser.followingIds,
+        }),
+      );
       window.location.reload();
     } catch (error) {
       console.error("Unfollow error:", error);
@@ -110,7 +116,7 @@ export function ProfilePage() {
       const response = await fetch(`/api/users/${user._id}/picture`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ currentUserId: loggedUser.id, profilePicture: image}),
+        body: JSON.stringify({ currentUserId: loggedUser.id, profilePicture: image }),
       });
 
       const data = await response.json();
@@ -130,21 +136,41 @@ export function ProfilePage() {
     <>
       <h1>Profile</h1>
       <div className="profile-info">
-
-        {loggedUser && ownProfile && (<label className="post-avatar" htmlFor="image-upload"><img src={user.image && user.image !== "" ? user.image : "https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg"} alt=""></img></label>)}
-        {loggedUser && !ownProfile && (<img className="post-avatar" src={user.image && user.image !== "" ? user.image : "https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg"} alt=""></img>)}
+        {loggedUser && ownProfile && (
+          <label className="post-avatar" htmlFor="image-upload">
+            <img
+              src={
+                user.image && user.image !== ""
+                  ? user.image
+                  : "https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg"
+              }
+              alt=""
+            ></img>
+          </label>
+        )}
+        {!ownProfile && (
+          <img
+            className="post-avatar"
+            src={
+              user.image && user.image !== ""
+                ? user.image
+                : "https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg"
+            }
+            alt=""
+          ></img>
+        )}
 
         <input
           id="image-upload"
           className="upload-input"
           type="file"
           accept="image/*"
-
           //when a user gives us a new profile picture we want to do a few things
           //first we call handleImageChange which will take the file we've given it and convert it to a base64 encoded string
           //handleImageUpdate actually calls the backend to update mongodb
-          onChange={async (event) => {const image = await handleImageChange(event); 
-            if(image){
+          onChange={async (event) => {
+            const image = await handleImageChange(event);
+            if (image) {
               await handleImageUpdate(image);
             }
           }}
@@ -160,6 +186,7 @@ export function ProfilePage() {
           </div>
           {loggedUser && !ownProfile && (
             <button
+              type="button"
               className={isFollowing ? "unfollow-btn" : "follow-btn"}
               onClick={isFollowing ? handleUnfollow : handleFollow}
             >
@@ -170,7 +197,7 @@ export function ProfilePage() {
       </div>
       <div className="posts-container">
         {userPosts.map((post) => (
-          <Post key={post._id} {...post} />
+          <Post key={post._id} post={post} />
         ))}
       </div>
     </>

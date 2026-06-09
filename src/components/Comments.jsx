@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./Comments.css";
+import "@/components/Comments.css";
 
 export function Comments({ postId, comments: initialComments = [], setCommentState }) {
   const [comments, setComments] = useState(initialComments);
@@ -42,7 +42,9 @@ export function Comments({ postId, comments: initialComments = [], setCommentSta
       <div className="comment-input">
         <h3>Write a comment: </h3>
         <input value={input} onChange={(e) => setInput(e.target.value)} placeholder=" ..." />
-        <button onClick={handleAddComment}>Post</button>
+        <button type="button" onClick={handleAddComment}>
+          Post
+        </button>
       </div>
     </div>
   );

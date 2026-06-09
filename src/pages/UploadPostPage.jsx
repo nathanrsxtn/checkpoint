@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
-import "./UploadPostPage.css";
+import "@/pages/UploadPostPage.css";
 
 export function UploadPostPage() {
   const [game, setGame] = useState("");
@@ -87,48 +87,36 @@ export function UploadPostPage() {
 
       <div className="create-post-card">
         <form className="create-post-form" onSubmit={handleSubmit}>
-          <label className="form-label">Upload Image </label>
+          <label for="image-upload" className="form-label">
+            Upload Image{" "}
+          </label>
 
           {/* Accepts JPG, PNG, WEBP */}
           <label className="upload-label" htmlFor="image-upload">
             Upload Image
           </label>
 
-          <input
-            id="image-upload"
-            className="upload-input"
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-          />
+          <input id="image-upload" className="upload-input" type="file" accept="image/*" onChange={handleImageChange} />
 
-          {image && (
-            <img className="image-preview" src={image} alt="Preview" />
-          )}
+          {image && <img className="image-preview" src={image} alt="Preview" />}
 
-          <label className="form-label">Game Name</label>
+          <label for="game-name-input" className="form-label">
+            Game Name
+          </label>
 
-          <input
-            placeholder="Game name"
-            value={game}
-            onChange={(event) => setGame(event.target.value)}
-          />
+          <input id="game-name-input" placeholder="Game name" value={game} onChange={(event) => setGame(event.target.value)} />
 
-          <label className="form-label">Post Text</label>
+          <label for="post-text-input" className="form-label">
+            Post Text
+          </label>
 
-          <textarea
-            placeholder="Post text"
-            value={content}
-            onChange={(event) => setContent(event.target.value)}
-          />
+          <textarea id="post-text-input" placeholder="Post text" value={content} onChange={(event) => setContent(event.target.value)} />
 
-          <label className="form-label">Tags</label>
+          <label for="tags-input" className="form-label">
+            Tags
+          </label>
 
-          <input
-            placeholder="Tags"
-            value={tag}
-            onChange={(event) => setTag(event.target.value)}
-          />
+          <input id="tags-input" placeholder="Tags" value={tag} onChange={(event) => setTag(event.target.value)} />
 
           <button className="submit-btn" type="submit">
             Upload Post

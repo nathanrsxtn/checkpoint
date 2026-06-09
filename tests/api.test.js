@@ -1,8 +1,7 @@
-import request from "supertest";
-import { describe, it, expect } from "vitest";
-import app from "../server/index.js";
-import { User, Post } from "../server/index.js";
 import bcrypt from "bcryptjs";
+import request from "supertest";
+import { describe, expect, it } from "vitest";
+import app, { Post, User } from "../server/index.js";
 
 console.log("TEST FILE LOADED");
 
@@ -48,7 +47,7 @@ describe("Login route", () => {
       name: "Test",
       username: "logintest",
       email: "test@test.com",
-      password: hash
+      password: hash,
     });
 
     testUserId = user._id;
@@ -61,12 +60,10 @@ describe("Login route", () => {
 
   // successful login flow test
   it("should login successfully, correct credentials", async () => {
-    const res = await request(app)
-      .post("/api/login")
-      .send({
-        username: "logintest",
-        password: "password123"
-      });
+    const res = await request(app).post("/api/login").send({
+      username: "logintest",
+      password: "password123",
+    });
 
     expect(res.status).toBe(200);
     expect(res.body.user.username).toBe("logintest"); // test username matches
@@ -75,12 +72,10 @@ describe("Login route", () => {
 
   // wrong password test
   it("should reject wrong password", async () => {
-    const res = await request(app)
-      .post("/api/login")
-      .send({
-        username: "logintest",
-        password: "wrongpassword" // submit incorrect password
-      });
+    const res = await request(app).post("/api/login").send({
+      username: "logintest",
+      password: "wrongpassword", // submit incorrect password
+    });
 
     expect(res.status).toBe(401);
     expect(res.body.error).toBe("Invalid username or password.");
@@ -88,11 +83,9 @@ describe("Login route", () => {
 
   // missing password test
   it("should reject missing field", async () => {
-    const res = await request(app)
-      .post("/api/login")
-      .send({
-        username: "logintest" // no password submitted
-      });
+    const res = await request(app).post("/api/login").send({
+      username: "logintest", // no password submitted
+    });
 
     expect(res.status).toBe(400);
     expect(res.body.error).toBe("Username and password are required.");
@@ -113,7 +106,7 @@ describe("Register and post flow", () => {
         name: "Test",
         username: username,
         email: `testemail_${uniqueId}@test.com`,
-        password: "password123"
+        password: "password123",
       });
 
     expect(userRes.status).toBe(201);
@@ -121,18 +114,16 @@ describe("Register and post flow", () => {
     const userId = userRes.body.user.id;
 
     // create post using test account
-    const postRes = await request(app)
-      .post("/api/posts")
-      .send({
-        userId,
-        name: "Test User",
-        username,
-        game: "Valorant",
-        content: "This is a test post",
-        tag: "test",
-        image: ""
-      });
-    
+    const postRes = await request(app).post("/api/posts").send({
+      userId,
+      name: "Test User",
+      username,
+      game: "Valorant",
+      content: "This is a test post",
+      tag: "test",
+      image: "",
+    });
+
     expect(postRes.status).toBe(201);
     const postId = postRes.body.post._id;
 
@@ -141,7 +132,7 @@ describe("Register and post flow", () => {
     expect(userResult.deletedCount).toBe(1);
 
     // delete test post from DB
-    const postResult = await Post.deleteOne({ _id: postId  });
+    const postResult = await Post.deleteOne({ _id: postId });
     expect(postResult.deletedCount).toBe(1);
   });
 });
@@ -153,26 +144,22 @@ describe("Follow route", () => {
 
   beforeAll(async () => {
     // create user A
-    const resA = await request(app)
-      .post("/api/register")
-      .send({
-        name: "User A",
-        username: "user_a",
-        email: "a@test.com",
-        password: "password123"
-      });
+    const resA = await request(app).post("/api/register").send({
+      name: "User A",
+      username: "user_a",
+      email: "a@test.com",
+      password: "password123",
+    });
 
     userA = resA.body.user.id;
 
     // create user B
-    const resB = await request(app)
-      .post("/api/register")
-      .send({
-        name: "User B",
-        username: "user_b",
-        email: "b@test.com",
-        password: "password123"
-      });
+    const resB = await request(app).post("/api/register").send({
+      name: "User B",
+      username: "user_b",
+      email: "b@test.com",
+      password: "password123",
+    });
 
     userB = resB.body.user.id;
   });
@@ -184,9 +171,7 @@ describe("Follow route", () => {
 
   // test normal follow user flow
   it("should allow user A to follow user B", async () => {
-    const res = await request(app)
-      .post(`/api/users/${userB}/follow`)
-      .send({ currentUserId: userA });
+    const res = await request(app).post(`/api/users/${userB}/follow`).send({ currentUserId: userA });
 
     expect(res.status).toBe(200);
     expect(res.body.message).toBe("User followed.");
@@ -198,19 +183,15 @@ describe("Follow route", () => {
   // test following same user twice
   it("should reject following the same user twice", async () => {
     // second follow attempt (already following)
-    const res = await request(app)
-      .post(`/api/users/${userB}/follow`)
-      .send({ currentUserId: userA });
-    
+    const res = await request(app).post(`/api/users/${userB}/follow`).send({ currentUserId: userA });
+
     expect(res.status).toBe(400);
-    expect(res.body.error).toBe("Already following this user.")
+    expect(res.body.error).toBe("Already following this user.");
   });
 
   // test following self
   it("should reject trying to follow self", async () => {
-    const res = await request(app)
-      .post(`/api/users/${userA}/follow`)
-      .send({ currentUserId: userA });
+    const res = await request(app).post(`/api/users/${userA}/follow`).send({ currentUserId: userA });
 
     expect(res.status).toBe(400);
     expect(res.body.error).toBe("You cannot follow yourself.");
@@ -219,12 +200,9 @@ describe("Follow route", () => {
   it("should reject following non existant user", async () => {
     const fakeId = "6a1915aee42c92d858d5c1dd";
 
-    const res = await request(app)
-      .post(`/api/users/${fakeId}/follow`)
-      .send({ currentUserId: userA });
+    const res = await request(app).post(`/api/users/${fakeId}/follow`).send({ currentUserId: userA });
 
     expect(res.status).toBe(404);
-    expect(res.body.error).toBe("User not found.")
+    expect(res.body.error).toBe("User not found.");
   });
 });
-

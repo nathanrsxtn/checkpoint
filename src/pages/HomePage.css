@@ -15,7 +15,9 @@
 }
 
 .feed-filter {
-  transition: transform 0.4s ease, color 0.1s ease;
+  transition:
+    transform 0.4s ease,
+    color 0.1s ease;
 }
 
 .feed-filter:hover {

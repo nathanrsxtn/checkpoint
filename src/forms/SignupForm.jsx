@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import "./signUpForm.css";
+import "@/forms/signUpForm.css";
 
-function SignupForm() {
+export function SignupForm() {
   // Use states
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
@@ -80,38 +80,15 @@ function SignupForm() {
       <form className="Form" onSubmit={handleSubmit}>
         <h2>Sign up</h2>
 
-        <input
-          placeholder="Name"
-          value={name}
-          onChange={(event) => setName(event.target.value)}
-        />
+        <input placeholder="Name" value={name} onChange={(event) => setName(event.target.value)} />
 
-        <input
-          placeholder="Username"
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
-        />
+        <input placeholder="Username" value={username} onChange={(event) => setUsername(event.target.value)} />
 
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-        />
+        <input type="email" placeholder="Email" value={email} onChange={(event) => setEmail(event.target.value)} />
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-        />
+        <input type="password" placeholder="Password" value={password} onChange={(event) => setPassword(event.target.value)} />
 
-        <input
-          type="password"
-          placeholder="Confirm password"
-          value={confirm}
-          onChange={(event) => setConfirm(event.target.value)}
-        />
+        <input type="password" placeholder="Confirm password" value={confirm} onChange={(event) => setConfirm(event.target.value)} />
 
         <button type="submit">Sign up</button>
 
@@ -122,5 +99,3 @@ function SignupForm() {
     </div>
   );
 }
-
-export default SignupForm;

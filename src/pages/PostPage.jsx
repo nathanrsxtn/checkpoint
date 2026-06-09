@@ -7,9 +7,8 @@ export function PostPage() {
 
   return (
     <>
-      <h1>Single Post View Page</h1>
-      <p>Post ID {id}</p>
-      <Post {...post} />
+      <h1>View Post</h1>
+      <Post post={post} />
     </>
   );
 }
