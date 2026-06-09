@@ -29,8 +29,6 @@ export function HomePage() {
 
   return (
     <>
-      <h1>Home View Page</h1>
-
       <div className="feed-filters">
         <button className={`feed-filter ${toggledFeed === "popular" ? "active" : ""}`} onClick={() => setToggledFeed("popular")}>Popular</button>
         <button className={`feed-filter ${toggledFeed === "recent" ? "active" : ""}`} onClick={() => setToggledFeed("recent")}>Recent</button>

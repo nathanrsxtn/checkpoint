@@ -8,6 +8,7 @@ body{
 }
 
 .container .Form {
+  margin: auto;
   width: 50%;
   height: 100vh;
   padding: 2rem;

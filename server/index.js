@@ -1,18 +1,15 @@
+import bcrypt from "bcryptjs";
 import cors from "cors";
 import express from "express";
-import mongoose, { mongo } from "mongoose";
-import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
 
 import "dotenv/config";
-import { posts, messages } from "./mockData.js";
-
-import dns from "node:dns";
-dns.setServers(["8.8.8.8", "1.1.1.1"]);
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-// Middleware — mount BEFORE any route 
+// Middleware — mount BEFORE any route
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
@@ -20,19 +17,19 @@ app.use(express.urlencoded({ limit: "10mb", extended: true }));
 // Connect Mongoose to MongoDB Atlas
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(()=> console.log("MongoDB is connected!"))
-  .catch((error) => console.error("MongoDB connection failed: ", error))
+  .then(() => console.log("MongoDB is connected!"))
+  .catch((error) => console.error("MongoDB connection failed: ", error));
 
 const userSchema = new mongoose.Schema({
-  name: {type: String, required: true, trim: true},
-  username: {type: String, required: true, unique: true, trim: true, minLength: 3},
-  email:{type: String, required:true, unique: true, lowercase: true, trim: true },
+  name: { type: String, required: true, trim: true },
+  username: { type: String, required: true, unique: true, trim: true, minLength: 3 },
+  email: { type: String, required: true, unique: true, lowercase: true, trim: true },
   image: { type: String, default: "" },
-  password:{type: String, required: true, minLength: 8},
-  postCount: {type: Number, default: 0},
-  followers: {type: Number, default: 0},
-  following: {type: Number, default: 0},
-  createdAt: {type: Date, default: Date.now},
+  password: { type: String, required: true, minLength: 8 },
+  postCount: { type: Number, default: 0 },
+  followers: { type: Number, default: 0 },
+  following: { type: Number, default: 0 },
+  createdAt: { type: Date, default: Date.now },
   // list of people folllowed and followers
   followerIds: { type: [String], default: [] },
   followingIds: { type: [String], default: [] },
@@ -49,19 +46,18 @@ const commentSchema = new mongoose.Schema({
   userId: { type: String, required: true },
   username: { type: String, required: true },
   textContent: { type: String, required: true },
-  likes: { type: Number, default: 0 }
+  likes: { type: Number, default: 0 },
 });
 
 const postSchema = new mongoose.Schema(
   {
     userId: { type: String, required: true },
-    userImage: { type: String, default: ""},
+    userImage: { type: String, default: "" },
     name: { type: String, required: true },
     username: { type: String, required: true },
     game: { type: String, required: true },
     content: { type: String, required: true },
     tag: { type: String, default: "" },
-    likes: { type: Number, default: 0 },
     commentCount: { type: Number, default: 0 },
     shareCount: { type: Number, default: 0 },
     image: { type: String, default: "" },
@@ -70,14 +66,14 @@ const postSchema = new mongoose.Schema(
     likes: { type: Number, default: 0 },
     likedBy: { type: [String], default: [] },
   },
-  { collection: "posts" }
+  { collection: "posts" },
 );
-const User = mongoose.model("User", userSchema);
+// export to use in tests
+export const User = mongoose.model("User", userSchema);
 const Message = mongoose.model("Message", messageSchema, "messages");
-const Post = mongoose.model("Post", postSchema, "posts");
+export const Post = mongoose.model("Post", postSchema, "posts");
 
 function validateInputs({ name, username, email, password }) {
-
   if (!name.trim()) {
     return "Please enter your name.";
   }
@@ -109,17 +105,22 @@ app.post("/api/register", async (req, res) => {
 
   try {
     const existing = await User.findOne({ username });
-    if(existing) return res.status(409).json({ error: "Username already taken."});
+    if (existing) return res.status(409).json({ error: "Username already taken." });
 
-    const hash = await bcrypt.hash(password, 10);  //<- the new line
-    const newUser = await User.create({ name, username, email, password: hash, 
-                                      postCount: 0, followers: 0, following: 0 });
+    const hash = await bcrypt.hash(password, 10); //<- the new line
+    const newUser = await User.create({ name, username, email, password: hash, postCount: 0, followers: 0, following: 0 });
 
     return res.status(201).json({
       message: "User registered successfully.",
-      user: { id: newUser._id, name: newUser.name, username: newUser.username, email: newUser.email,
-        postCount: newUser.postCount, followers: newUser.followers, following: newUser.following
-      },   // never echo the password or the hash
+      user: {
+        id: newUser._id,
+        name: newUser.name,
+        username: newUser.username,
+        email: newUser.email,
+        postCount: newUser.postCount,
+        followers: newUser.followers,
+        following: newUser.following,
+      }, // never echo the password or the hash
     });
   } catch (error) {
     console.error("Register error:", error);
@@ -143,16 +144,16 @@ app.post("/api/login", async (req, res) => {
 
   try {
     const user = await User.findOne({ username });
-    if(!user) {
+    if (!user) {
       return res.status(401).json({ error: "Invalid username or password." });
     }
     const ok = await bcrypt.compare(password, user.password); //<- the new check
-    
+
     if (!ok) {
       return res.status(401).json({ error: "Invalid username or password." });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {expiresIn: "1h" })
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
     return res.status(200).json({
       message: "Login successful.",
@@ -178,30 +179,29 @@ app.post("/api/login", async (req, res) => {
 // ============================================================
 // POST /api/messages
 // ============================================================
-app.post("/api/messages", async (req,res) => {
+app.post("/api/messages", async (req, res) => {
   try {
     const message = await Message.create({
       messageNum: req.body.messageNum,
       Sender: req.body.Sender,
       Recipient: req.body.Recipient,
-      Message: req.body.Message
+      Message: req.body.Message,
     });
 
     return res.status(201).json({
       message: "Message saved to MongoDB",
       data: message,
     });
-  } catch(error) {
+  } catch (error) {
     console.log("Message error: ", error);
-    return res.status(500).json({ error: "Failed to save message"});
-
+    return res.status(500).json({ error: "Failed to save message" });
   }
 });
 
 // ============================================================
 // POST /api/comments
 // ============================================================
-app.post("/api/posts/:id/comments", async (req,res) => {
+app.post("/api/posts/:id/comments", async (req, res) => {
   try {
     const { userId, username, textContent } = req.body;
 
@@ -210,30 +210,29 @@ app.post("/api/posts/:id/comments", async (req,res) => {
       username,
       textContent,
       likes: 0,
-    }
+    };
 
     const post = await Post.findByIdAndUpdate(
       req.params.id,
       {
         $push: { comments: comment },
-        $inc: { commentCount: 1},
+        $inc: { commentCount: 1 },
       },
-      { new: true }
+      { new: true },
     );
 
-    if(!post) {
-      return res.status(404).json({ error: "Post not found."});
+    if (!post) {
+      return res.status(404).json({ error: "Post not found." });
     }
 
     return res.status(201).json({
       message: "comment saved to MongoDB",
-      comment: post.comments[post.comments.length -1],
+      comment: post.comments[post.comments.length - 1],
       commentCount: post.commentCount,
     });
-  } catch(error) {
+  } catch (error) {
     console.log("Comment error: ", error);
-    return res.status(500).json({ error: "Failed to save comment"});
-
+    return res.status(500).json({ error: "Failed to save comment" });
   }
 });
 
@@ -264,17 +263,16 @@ app.get("/api/posts", async (req, res) => {
     //this takes all of the posts we just grabbed from posts,
     const postsWithLatestImages = await Promise.all(
       posts.map(async (post) => {
-
         //for each one it creats a user by finding them using their username
         const user = await User.findOne({ username: post.username });
-        
+
         //then it returns the post but makes it's userImage the latest one from the db
         return {
           ...post,
           // Use the latest user image from the DB, fallback to their old post image
-          userImage: user && user.image ? user.image : post.userImage
+          userImage: user && user.image ? user.image : post.userImage,
         };
-      })
+      }),
     );
 
     res.json(postsWithLatestImages);
@@ -289,10 +287,9 @@ app.get("/api/posts", async (req, res) => {
 // ============================================================
 app.post("/api/posts", async (req, res) => {
   try {
-
     //when we create a post we need to get the user who is creating it,
     //in doing that we can get thier profile picture and set it properly on the post
-    const user = await User.findOne({username: req.body.username});
+    const user = await User.findOne({ username: req.body.username });
     const profilePictureString = user ? user.image : "";
 
     const post = await Post.create({
@@ -310,7 +307,7 @@ app.post("/api/posts", async (req, res) => {
       comments: [],
     });
 
-    await User.findByIdAndUpdate(req.body.userId, {$inc: { postCount: 1 },});
+    await User.findByIdAndUpdate(req.body.userId, { $inc: { postCount: 1 } });
 
     res.status(201).json({
       message: "Post created successfully.",
@@ -349,7 +346,6 @@ app.get("/api/users/:id/posts", async (req, res) => {
     res.status(500).json({ error: "Failed to load user posts." });
   }
 });
-
 
 // Handles Following
 app.post("/api/users/:id/follow", async (req, res) => {
@@ -429,7 +425,6 @@ app.get("/api/messages", async (req, res) => {
 // Handles updating profile picture
 app.post("/api/users/:id/picture", async (req, res) => {
   try {
-
     //get the id of the user trying to make the request
     const { id } = req.params;
 
@@ -439,20 +434,20 @@ app.post("/api/users/:id/picture", async (req, res) => {
 
     //if the currentUserID trying to change the profile picture isn't
     //the actual person who owns the account return an error.
-    if(currentUserId !== id){
+    if (currentUserId !== id) {
       return res.status(403).json({ error: "Unauthorized to update this profile picture." });
     }
 
     //check to see if they actually gave you something
-    if (!profilePicture || typeof profilePicture !== 'string') {
+    if (!profilePicture || typeof profilePicture !== "string") {
       return res.status(400).json({ error: "Invalid or missing profilePicture string." });
     }
 
     //we use the id to find then subsequently update the profile picture.
     const updateUser = await User.findByIdAndUpdate(
-      id, 
+      id,
       { image: profilePicture },
-      { returnDocument: 'after' } //this returns the updated document so we can user it below
+      { returnDocument: "after" }, //this returns the updated document so we can user it below
       //to update the frontedn
     );
 
@@ -463,7 +458,7 @@ app.post("/api/users/:id/picture", async (req, res) => {
 
     return res.json({
       message: "Profile picture updated.",
-      user: updateUser
+      user: updateUser,
     });
   } catch (error) {
     console.error("Profile picture update error:", error);
@@ -512,11 +507,7 @@ app.post("/api/posts/:id/like", async (req, res) => {
 // Handles sharing a post
 app.post("/api/posts/:id/share", async (req, res) => {
   try {
-    const post = await Post.findByIdAndUpdate(
-      req.params.id,
-      { $inc: { shareCount: 1 } },
-      { new: true }
-    );
+    const post = await Post.findByIdAndUpdate(req.params.id, { $inc: { shareCount: 1 } }, { new: true });
 
     if (!post) {
       return res.status(404).json({ error: "Post not found." });
@@ -531,5 +522,7 @@ app.post("/api/posts/:id/share", async (req, res) => {
     res.status(500).json({ error: "Failed to share post." });
   }
 });
+
+app.listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 export default app;
