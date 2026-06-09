@@ -1,4 +1,4 @@
-import { getPost, getPosts, getProfile, getMessages, getUsers } from "@/services/api.js";
+import { getMessages, getPost, getPosts, getProfile, getUsers } from "@/services/api.js";
 
 export async function homeLoader({ request }) {
   const posts = await getPosts(request.signal);
@@ -22,7 +22,7 @@ export async function profileLoader({ params, request }) {
   //gets all of the posts which is not the most efficent but
   //I had extreme difficulty trying to get axios to just give the posts I asked for
   const posts = await getPosts(request.signal);
-  const userPosts = posts.filter(post => post.userId === id);
+  const userPosts = posts.filter((post) => post.userId === id);
 
   return { profile, userPosts };
 }

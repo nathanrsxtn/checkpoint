@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "check": "biome check .",
-    "fix": "biome check --write .",
+    "fix": "biome check --write . --diagnostic-level=warn",
     "test": "vitest",
     "test:coverage": "vitest run --coverage"
   },
@@ -67,6 +67,7 @@
     "@vitejs/plugin-react": "^6.0.1",
     "@vitest/coverage-v8": "^4.1.8",
     "bcryptjs": "^3.0.3",
+    "dotenv": "^17.4.2",
     "supertest": "^7.2.2",
     "vite": "^8.0.10",
     "vitest": "^4.1.8"

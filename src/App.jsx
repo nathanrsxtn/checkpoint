@@ -5,8 +5,8 @@ import { Navigation } from "@/components/Navigation.jsx";
 import { Card, CardContent } from "@/components/ui/card.jsx";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar.jsx";
 import { Toaster } from "@/components/ui/sonner.jsx";
-import LoginForm from "@/forms/LoginForm.jsx";
-import SignupForm from "@/forms/SignupForm.jsx";
+import { LoginForm } from "@/forms/LoginForm.jsx";
+import { SignupForm } from "@/forms/SignupForm.jsx";
 import { HomeError } from "@/pages/HomeError.jsx";
 import { HomePage } from "@/pages/HomePage.jsx";
 import { MessagesPage } from "@/pages/MessagesPage.jsx";
@@ -44,8 +44,6 @@ function Layout() {
     </SidebarProvider>
   );
 }
-
-export default Layout;
 
 function LayoutLoading() {
   return (

@@ -94,7 +94,9 @@ export function Post({
           >
             <Avatar className="h-full w-full rounded-[6px]">
               <AvatarImage src={userImage} className="rounded-[6px] object-cover" />
-              <AvatarFallback className="rounded-none bg-post-background text-white">{name?.charAt(0)?.toUpperCase() ?? "U"}</AvatarFallback>
+              <AvatarFallback className="rounded-none bg-post-background text-white">
+                {name?.charAt(0)?.toUpperCase() ?? "U"}
+              </AvatarFallback>
             </Avatar>
           </Button>
 

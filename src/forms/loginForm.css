@@ -1,15 +1,14 @@
-body{
+body {
   background-color: #727272;
-
 }
 
-.container{
+.container {
   display: flex;
   height: 100vh;
   max-width: none;
 }
 
-.container .loginSplash{
+.container .loginSplash {
   width: 70%;
   height: 100%;
   object-fit: contain;
@@ -20,16 +19,16 @@ body{
   flex-direction: column;
   justify-content: center;
   padding: 2rem;
-  background: #2D2D2B;
+  background: #2d2d2b;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  font-family: 'Work Sans', sans-serif;
+  font-family: "Work Sans", sans-serif;
 }
 
 .container .Form h2 {
   text-align: center;
   margin-bottom: 1.5rem;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .container .Form input {
@@ -48,13 +47,13 @@ body{
 
 .container .Form input:focus {
   outline: none;
-  border-color: #874BFF;
+  border-color: #874bff;
 }
 
 .container .Form button {
   width: 100%;
   padding: 0.7rem;
-  background: #874BFF;
+  background: #874bff;
   color: #fff;
   border: 0;
   border-radius: 4px;
@@ -65,18 +64,18 @@ body{
 }
 
 .container .Form button:hover {
-  background: #FFFFFF;
-  color: #874BFF;
+  background: #ffffff;
+  color: #874bff;
 }
 
 .container .Form-link {
   text-align: center;
   margin-top: 1rem;
-  color: #FFFFFF;;
+  color: #ffffff;
 }
 
 .container .Form-link a {
-  color: #874BFF;
+  color: #874bff;
   text-decoration: none;
   font-weight: 600;
 }

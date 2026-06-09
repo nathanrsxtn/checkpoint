@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import loginSplash from "@/images/loginSplash.png";
-import "./loginForm.css";
+import "@/forms/loginForm.css";
 
-function LoginForm() {
+export function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -60,19 +60,9 @@ function LoginForm() {
       <form className="Form" onSubmit={handleSubmit}>
         <h2>Sign in to Checkpoint</h2>
 
-        <input
-          type="text"
-          placeholder="Username"
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
-        />
+        <input type="text" placeholder="Username" value={username} onChange={(event) => setUsername(event.target.value)} />
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-        />
+        <input type="password" placeholder="Password" value={password} onChange={(event) => setPassword(event.target.value)} />
 
         <button type="submit">Log in</button>
 
@@ -83,5 +73,3 @@ function LoginForm() {
     </div>
   );
 }
-
-export default LoginForm;

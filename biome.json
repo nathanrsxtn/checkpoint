@@ -4,6 +4,7 @@
     "indentStyle": "space",
     "lineWidth": 140
   },
+  "files": { "includes": ["**", "!node_modules", "!**/node_modules", "!dist", "!**/dist", "!src/components/ui"] },
   "linter": {
     "rules": {
       "style": {
@@ -14,7 +15,9 @@
         "noUndeclaredDependencies": "on",
         "noUndeclaredVariables": "on",
         "noUnresolvedImports": "off",
-        "useImportExtensions": "on"
+        "useImportExtensions": "on",
+        "noUnusedVariables": "info",
+        "noUnusedFunctionParameters": "info"
       },
       "nursery": {
         "useSortedClasses": "on"

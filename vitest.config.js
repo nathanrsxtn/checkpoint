@@ -6,7 +6,7 @@ export default defineConfig({
     environment: "node", // set env where tests run
     coverage: {
       provider: "v8",
-      reporter: ["text", "html"] // output formats for reports
-    }
-  }
+      reporter: ["text", "html"], // output formats for reports
+    },
+  },
 });

@@ -1,22 +1,28 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import bcrypt from "bcryptjs";
 import cors from "cors";
-import "dotenv/config";
+import dotenv from "dotenv";
 import express from "express";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
+
+dotenv.config({ path: path.join(path.dirname(fileURLToPath(import.meta.url)), ".env") });
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware — mount BEFORE any route
-app.use(cors({
-  origin: [
-    "http://localhost:5173", // develop
-    "https://checkpoint-ruddy.vercel.app", // production
-    /\.vercel\.app$/, // preview
-  ],
-  credentials: true,
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173", // develop
+      "https://checkpoint-ruddy.vercel.app", // production
+      /\.vercel\.app$/, // preview
+    ],
+    credentials: true,
+  }),
+);
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
@@ -275,7 +281,7 @@ app.get("/api/posts", async (req, res) => {
         return {
           ...post,
           // Use the latest user image from the DB, fallback to their old post image
-          userImage: user && user.image ? user.image : post.userImage,
+          userImage: user?.image ? user.image : post.userImage,
         };
       }),
     );
